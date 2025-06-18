@@ -1,103 +1,93 @@
+import { TopMenu } from "@/components/TopMenu"
+import { BorderBeam } from '@/components/ui/BorderBeam';
+import { BlurFade } from '@/components/ui/BlurFade';
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import Image from "next/image";
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <>
+      <TopMenu />
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+      <section className="flex-1 flex flex-col">
+        <div className="flex flex-col min-h-[80vh]">
+          {/* Main content */}
+          <div className="flex-1 flex flex-col md:flex-row max-w-4xl mx-auto items-center px-5 md:px-2 py-8 md:pt-0">
+            {/* Left side - Call to action */}
+            <div className="w-full md:w-1/2 max-w-[378px] flex flex-col justify-center items-center md:items-start ">
+              <div className="max-w-md text-center md:text-left">
+                <div className="inline-block font-mono gap-2.5 px-2.5 py-1.5 rounded bg-gray-100 text-sm mb-5 text-gray">
+                  100% free & open source
+                </div>
+
+                <h1 className="text-[32px] font-bold mb-4 flex items-center justify-center md:justify-start gap-4 flex-wrap text-black-85 font-mono leading-4">
+                  <span>LinkedIn</span>
+                  <Image
+                    src="/right-arrow.png"
+                    alt="Arrow Right Icon"
+                    width={32}
+                    height={32}
+                    className="inline size-8"
+                  />
+                  <span>Website</span>
+                  <br />
+                  <span>
+                    in one <span className="hidden sm:inline">click</span>
+                  </span>
+                  <Image
+                    src="/highlight-pointer.png"
+                    alt="Pointer Icon"
+                    width={37}
+                    height={37}
+                    className="size-[37px] text-gray-400"
+                  />
+                </h1>
+
+                <p className="text-base text-gray-600 mb-[30px] font-mono text-center md:text-left">
+                  Turn your resume/LinkedIn
+                  <br /> into a professional website.
+                </p>
+
+                <div className="relative flex flex-col items-center font-mono w-full md:w-fit">
+                  <Link href="/upload">
+                    <Button className="relative group flex items-center bg-black/95 hover:bg-black/85 text-white px-6 py-3 h-auto text-base overflow-hidden">
+                      <div className="h-[120px] w-10 bg-gradient-to-r from-white/10 via-white/50 to-white/10 absolute blur-sm -rotate-45 -left-16 group-hover:left-[150%] duration-500 delay-200" />
+                      <Image
+                        src="/sparkle.png"
+                        alt="Sparkle Icon"
+                        className="h-5 w-5 mr-2 relative"
+                        width={5}
+                        height={5}
+                      />
+                      <span className="relative">Upload Resume</span>
+                      <BorderBeam colorFrom="#5d5d5d" colorTo="#ffffff" />
+                    </Button>
+                  </Link>
+
+                  <p className="text-sm text-gray-500 mt-4 text-center">
+                    Takes 1 minute!
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Right side - Preview */}
+            <div className="w-full md:w-1/2 flex justify-center items-center flex-1 relative max-h-[700px] min-w-[50%] lg:min-w-[500px]">
+              <div className="absolute inset-0 -bottom-4 rounded-3xl bg-black/5 blur-xl h-full"></div>
+              <BlurFade delay={0.25} inView>
+                <Image
+                  src="/cv-home.png"
+                  className="relative w-full max-w-[500px] h-full object-cover overflow-hidden"
+                  alt="CV Website Preview"
+                  width={1000}
+                  height={1000}
+                />
+              </BlurFade>
+            </div>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      </section>
+    </>
   );
 }
