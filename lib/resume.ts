@@ -54,7 +54,7 @@ const ProjectSection = z.array(
     functionality: z.string().describe('Main functionality and purpose of the project'),
     achievement: z.string().optional().describe('Notable achievements or outcomes'),
   })
-);
+).optional();
 
 const EducationSection = z.array(
   z.object({

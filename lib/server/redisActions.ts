@@ -1,224 +1,228 @@
-import { upstashRedis } from '@/lib/server/redis';
-import { ResumeDataSchema } from '@/lib/resume';
-import { z } from 'zod';
-import { PRIVATE_ROUTES } from '../routes';
+import { upstashRedis } from "./redis";
+import { z } from 'zod'
+import {  PRIVATE_ROUTES } from '@/lib/routes'
+import { ResumeDataSchema } from "../resume";
 
-// Key prefixes for different types of data
 const REDIS_KEYS = {
-  RESUME_PREFIX: 'resume:', // Using colon is a Redis convention for namespacing
+  RESUME_PREFIX: 'resume:', // using colon for redis conventions for namespacing
   USER_ID_PREFIX: 'user:id:',
-  USER_NAME_PREFIX: 'user:name:',
-} as const;
+  USER_NAME_PREFIX: 'user:name:'
+} as const 
 
-// Define the file schema
 const FileSchema = z.object({
   name: z.string(),
-  url: z.string().nullish(),
+  url: z.string().nullable(),
   size: z.number(),
   bucket: z.string(),
-  key: z.string(),
-});
+  key: z.string()
+})
 
-const FORBIDDEN_USERNAMES = PRIVATE_ROUTES;
+const  FORBIDDEN_USERNAME  = PRIVATE_ROUTES
 
-// Define the complete resume schema
+// Resume schema
 const ResumeSchema = z.object({
   status: z.enum(['live', 'draft']).default('draft'),
   file: FileSchema.nullish(),
-  fileContent: z.string().nullish(),
-  resumeData: ResumeDataSchema.nullish(),
-});
+  filsContent: z.string().nullish(),
+  resumeData: ResumeDataSchema.nullish()
+})
 
-// Type inference for the resume data
-export type ResumeData = z.infer<typeof ResumeDataSchema>;
-export type Resume = z.infer<typeof ResumeSchema>;
+// type interference for the resume data
+export type ResumeData = z.infer<typeof ResumeDataSchema>
+export type Resume = z.infer<typeof ResumeSchema>
 
-// Function to get resume data for a user
+// funtion to get resume data for user
 export async function getResume(userId: string): Promise<Resume | undefined> {
   try {
     const resume = await upstashRedis.get<Resume>(
-      `${REDIS_KEYS.RESUME_PREFIX}${userId}`,
+      `${REDIS_KEYS.RESUME_PREFIX}${userId}`
     );
     return resume || undefined;
-  } catch (error) {
-    console.error('Error retrieving resume:', error);
-    throw new Error('Failed to retrieve resume');
+  } catch(error) {
+    console.error('Error retriving resume', error)
+    throw new Error('Failed to retrive resume')
   }
 }
 
-// Function to store resume data for a user
 export async function storeResume(
   userId: string,
   resumeData: Resume,
 ): Promise<void> {
   try {
-    const validatedData = ResumeSchema.parse(resumeData);
+    const validateDate = ResumeDataSchema.parse(resumeData)
     await upstashRedis.set(
-      `${REDIS_KEYS.RESUME_PREFIX}${userId}`,
-      validatedData,
+      `${REDIS_KEYS.RESUME_PREFIX}${userId}`, validateDate
     );
   } catch (error) {
     if (error instanceof z.ZodError) {
-      throw error;
+      throw error
     }
-    console.error('Error storing resume:', error);
-    throw new Error('Failed to store resume');
+    console.log('Error storing resume', error)
+    throw new Error('Failed to store resume')
+  }
+}
+/**
+ * create user with bidirectional lookups
+ * @param userId unique user identifier
+ * @param username unique user identifier
+ * @return promise resolve to boolean indicating success
+ */
+
+export async function createUsernameLookup(
+  userId: string,
+  username: string
+): Promise<boolean> {
+
+  if (FORBIDDEN_USERNAME.includes(username.toLocaleLowerCase())) {
+    return false
+  }
+
+  // check if username or useId already exists
+  const [usernameExist, userIdExit] = await Promise.all([
+    upstashRedis.exists(`${REDIS_KEYS.USER_ID_PREFIX}${userId}`),
+    upstashRedis.exists(`${REDIS_KEYS.USER_NAME_PREFIX}${username}`)
+  ])
+
+   if (usernameExist || userIdExit) {
+    return false
+   }
+
+   // Create mapping in both directions
+   const transactions = upstashRedis.multi();
+   transactions.set(`${REDIS_KEYS.USER_ID_PREFIX}${userId}`, username)
+   transactions.set(`${REDIS_KEYS.USER_NAME_PREFIX}${username}`, userId)
+
+   try {
+    const result = await transactions.exec();
+    return result.every((result) => result === 'OK')
+   } catch(error) {
+    console.error('User creation failed', error)
+    return false
+   }
+}
+
+/**
+ * Retrive username by userId
+ * @param userId userId to lookup
+ * @returns promise resolve to uername or null
+ */
+export async function getUsernameById(
+  userId: string
+): Promise<string | null> {
+  return await upstashRedis.get(
+    `${REDIS_KEYS.USER_ID_PREFIX}${userId}`
+  )
+}
+
+/**
+ * Retrive userId by username
+ * @param username username to lookup
+ * @returns promise resolve in userId or null
+ */
+export async function getUserIdByUsername(
+  username: string
+): Promise<string | null> {
+  return await upstashRedis.get(
+    `${REDIS_KEYS.USER_NAME_PREFIX}${username}`
+  )
+}
+
+/**
+ * Check username availability by username
+ * @param username username to lookup userId
+ * @returns promise resolve in boolean
+ */
+export async function checkUsernameAvailability(
+  username: string
+): Promise<{
+  available: boolean
+}> {
+  if (FORBIDDEN_USERNAME.includes(username.toLowerCase())) {
+    return { available: false }
+  }
+  const userId = await getUserIdByUsername(username)
+  return { available: !userId}
+}
+
+/**
+ * Delete the user by userID or username
+ * @param opt Object containing either username or userId
+ * @returns promise resolves to boolean indicating success
+ */
+
+export async function deleteUser(
+  opts: {
+    userId?: string,
+    username?: string
+  }
+): Promise<boolean> {
+  
+  let userId: string | null = null;
+  let username: string | null = null;
+
+  // Determine the lookup method based on input
+  if (opts.userId) {
+    username = await getUsernameById(opts.userId)
+    if (!username) {
+      return false
+    }
+    userId = opts.userId
+  } else if (opts.username) {
+    userId = await getUserIdByUsername(opts.username)
+    if (!userId) {
+      return false
+    }
+    username = opts.username
+  } else {
+    return false
+  }
+
+  // Delete both mappings
+  const transactions = upstashRedis.multi();
+  transactions.del(`${REDIS_KEYS.USER_ID_PREFIX}${userId}`)
+  transactions.del(`${REDIS_KEYS.USER_NAME_PREFIX}${username}`)
+
+  try {
+    const result = await transactions.exec();
+    return result.every((result: unknown) => result === 1)
+  } catch (error) {
+    console.error('User deletion failed', error)
+    return false
   }
 }
 
 /**
- * Create a new user with bidirectional lookup
- * @param userId Unique user identifier
- * @param username Unique username
- * @returns Promise resolving to boolean indicating success
+ * Update username for given userId
+ * @param userId user id to update
+ * @param newUsername new username 
+ * @returns Promise resolves to boolean indicating success
  */
-export const createUsernameLookup = async ({
-  userId,
-  username,
-}: {
-  userId: string;
-  username: string;
-}): Promise<boolean> => {
-  // Check if username is forbidden
-  if (FORBIDDEN_USERNAMES.includes(username.toLowerCase())) {
-    return false;
-  }
-
-  // Check if username or user_id already exists
-  const [usernameExists, userIdExists] = await Promise.all([
-    upstashRedis.exists(`${REDIS_KEYS.USER_NAME_PREFIX}${username}`),
-    upstashRedis.exists(`${REDIS_KEYS.USER_ID_PREFIX}${userId}`),
-  ]);
-
-  if (usernameExists || userIdExists) {
-    return false;
-  }
-
-  // Create mappings in both directions
-  const transaction = upstashRedis.multi();
-  transaction.set(`${REDIS_KEYS.USER_ID_PREFIX}${userId}`, username);
-  transaction.set(`${REDIS_KEYS.USER_NAME_PREFIX}${username}`, userId);
-
-  try {
-    const results = await transaction.exec();
-    return results.every((result) => result === 'OK');
-  } catch (error) {
-    console.error('User creation failed:', error);
-    return false;
-  }
-};
-
-/**
- * Retrieve username by user ID
- * @param userId User ID to look up
- * @returns Promise resolving to username or null
- */
-export const getUsernameById = async (
+export async function updateUsername(
   userId: string,
-): Promise<string | null> => {
-  return await upstashRedis.get(`${REDIS_KEYS.USER_ID_PREFIX}${userId}`);
-};
-
-/**
- * Retrieve user ID by username
- * @param username Username to look up
- * @returns Promise resolving to user ID or null
- */
-export const getUserIdByUsername = async (
-  username: string,
-): Promise<string | null> => {
-  return await upstashRedis.get(`${REDIS_KEYS.USER_NAME_PREFIX}${username}`);
-};
-
-export const checkUsernameAvailability = async (
-  username: string,
-): Promise<{
-  available: boolean;
-}> => {
-  if (FORBIDDEN_USERNAMES.includes(username.toLowerCase())) {
-    return { available: false };
-  }
-  const userId = await getUserIdByUsername(username);
-  return { available: !userId };
-};
-
-/**
- * Delete a user by either user ID or username
- * @param opts Object containing either userId or username
- * @returns Promise resolving to boolean indicating success
- */
-export const deleteUser = async (opts: {
-  userId?: string;
-  username?: string;
-}): Promise<boolean> => {
-  let userId: string | null = null;
-  let username: string | null = null;
-
-  // Determine lookup method based on input
-  if (opts.userId) {
-    username = await getUsernameById(opts.userId);
-    if (!username) return false;
-  } else if (opts.username) {
-    userId = await getUserIdByUsername(opts.username);
-    if (!userId) return false;
-  } else {
-    return false;
+  newUsername: string
+): Promise<boolean> {
+ 
+  // check if username is forbidden
+  if (FORBIDDEN_USERNAME.includes(newUsername.toLowerCase())) {
+    return false
   }
 
-  // Use the found values if not provided
-  userId = userId || opts.userId!;
-  username = username || opts.username!;
+  // get current username
+  const currentUsername = await getUsernameById(userId)
+  if (!currentUsername) {
+    return false
+  }
 
-  // Delete both mappings
-  const transaction = upstashRedis.multi();
-  transaction.del(`${REDIS_KEYS.USER_ID_PREFIX}${userId}`);
-  transaction.del(`${REDIS_KEYS.USER_NAME_PREFIX}${username}`);
+  const transactions = upstashRedis.multi()
+  transactions.del(`${REDIS_KEYS.USER_NAME_PREFIX}${currentUsername}`)
+  transactions.set(`${REDIS_KEYS.USER_NAME_PREFIX}${newUsername}`, userId)
+  transactions.set(`${REDIS_KEYS.USER_ID_PREFIX}${userId}`, newUsername)
 
   try {
-    const results = await transaction.exec();
-    return results.every((result) => result === 1);
-  } catch (error) {
-    console.error('User deletion failed:', error);
-    return false;
+    const results = await transactions.exec()
+    return results.every((result) => result === 'OK' || result === 1  );
+  } catch(error) {
+    console.error('Error updating username', error)
+    return false
   }
-};
-
-/**
- * Update username for a given user ID
- * @param userId User ID to update
- * @param newUsername New username
- * @returns Promise resolving to boolean indicating success
- */
-export const updateUsername = async (
-  userId: string,
-  newUsername: string,
-): Promise<boolean> => {
-  // Check if new username is forbidden
-  if (FORBIDDEN_USERNAMES.includes(newUsername.toLowerCase())) {
-    return false;
-  }
-
-  // Get current username
-  const currentUsername = await getUsernameById(userId);
-  if (!currentUsername) return false;
-
-  // Check if new username is already taken
-  const newUsernameExists = await upstashRedis.exists(
-    `${REDIS_KEYS.USER_NAME_PREFIX}${newUsername}`,
-  );
-  if (newUsernameExists) return false;
-
-  // Create transaction to update mappings
-  const transaction = upstashRedis.multi();
-  transaction.del(`${REDIS_KEYS.USER_NAME_PREFIX}${currentUsername}`);
-  transaction.set(`${REDIS_KEYS.USER_ID_PREFIX}${userId}`, newUsername);
-  transaction.set(`${REDIS_KEYS.USER_NAME_PREFIX}${newUsername}`, userId);
-
-  try {
-    const results = await transaction.exec();
-    return results.every((result) => result === 'OK' || result === 1);
-  } catch (error) {
-    console.error('Username update failed:', error);
-    return false;
-  }
-};
+}
