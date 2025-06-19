@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import { Linkedin,  X } from 'lucide-react';
 import { Dropzone } from '@/components/ui/dropzone';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import {
   Dialog,
@@ -12,7 +12,14 @@ import {
   DialogContent,
   DialogTitle,
 } from '@/components/ui/dialog';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { Button } from '@/components/ui/button';
+import { CustomSpinner } from '@/components/CustomSpinner';
 
 
 type FileState = 
@@ -20,7 +27,7 @@ type FileState =
     | { status: 'saved'; file: { name: string, url: string, size: number}}
 
 export default function UploadPageClient () {
-    //   const router = useRouter();
+      const router = useRouter();
 
     // const [resumeQuery, uploadResumeMutation] = 
     const [fileState, setFileState] = useState<FileState>({ status: 'empty'})
@@ -92,12 +99,46 @@ export default function UploadPageClient () {
                         </Button>
                     </DialogTrigger>
                     <DialogContent className="w-full max-w-[652px] text-center font-mono !p-0 gap-0">
-                    <DialogTitle className="font-mono text-base text-center text-design-gray px-7 py-4">
-                    Go to your profile → Click on “Resources” → Then “Save to PDF”
-                    </DialogTitle>
-                    <Image src="/linkedin-save-to-pdf.png" alt='how to upload linkedin profile' className="h-auto w-full" height={0} width={0} sizes="100vw" />
-                </DialogContent>  
+                        <DialogTitle className="font-mono text-base text-center text-design-gray px-7 py-4">
+                            Go to your profile → Click on “Resources” → Then “Save to PDF”
+                        </DialogTitle>
+                        <Image src="/linkedin-save-to-pdf.png" alt='how to upload linkedin profile' className="h-auto w-full" height={0} width={0} sizes="100vw" />
+                    </DialogContent>  
                 </Dialog>
+            </div>
+            <div className='font-mono mt-4'>
+                <div className='relative'>
+                    <Button
+                        className='px-4 py-3 h-auto bg-black/95 hover:bg-black/85'
+                        disabled={fileState.status === 'empty'}
+                        onClick={() => router.push('pdf')}
+                    >
+                        {/* {isUpdating ? (
+                            <>
+                                <CustomSpinner className='h-5 w-5 mr-2'/>
+                                Processing...
+                            </>
+                        ) : (
+                            <> */}
+                                <Image src='/sparkle.png' alt='sparkle icon' width={20} height={20} style={{ marginRight: '0.5rem' }} />
+                                Generate Portfolio
+                            {/* </>
+                        )} */}
+                    </Button>
+
+                    {fileState.status === 'empty' && (
+                        <TooltipProvider>
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                <span className="absolute inset-0" />
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <p>Upload a PDF to continue</p>
+                                </TooltipContent>
+                            </Tooltip>
+                        </TooltipProvider>
+                    )}
+                </div>
             </div>
         </div>
     </div>

@@ -47,6 +47,15 @@ const WorkExperienceSection = z.array(
   })
 );
 
+const ProjectSection = z.array(
+  z.object({
+    name: z.string().describe('Project name'),
+    tools: z.array(z.string()).describe('Tools and technologies used'),
+    functionality: z.string().describe('Main functionality and purpose of the project'),
+    achievement: z.string().optional().describe('Notable achievements or outcomes'),
+  })
+);
+
 const EducationSection = z.array(
   z.object({
     school: z.string().describe('School or university name'),
@@ -60,6 +69,7 @@ export const ResumeDataSchema = z.object({
   header: HeaderSection,
   summary: SummarySection,
   workExperience: WorkExperienceSection,
+  projects: ProjectSection,
   education: EducationSection,
 });
 
