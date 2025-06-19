@@ -1,6 +1,5 @@
 import { getUsernameById, updateUsername } from "@/lib/server/redisActions";
 import { currentUser } from "@clerk/nextjs/server";
-import { X } from "lucide-react";
 import { NextResponse } from "next/server";
 
 //  API response type
