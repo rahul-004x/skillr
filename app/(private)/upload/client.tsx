@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Linkedin,  X } from 'lucide-react';
 import { Dropzone } from '@/components/ui/dropzone';
 import Image from 'next/image';
@@ -31,6 +31,22 @@ export default function UploadPageClient () {
 
     const { resumeQuery, uploadResumeMutation } = useUserAction()
     const [fileState, setFileState] = useState<FileState>({ status: 'empty'})
+
+      const resume = resumeQuery.data?.resume;
+
+        // Update fileState whenever resume changes
+    useEffect(() => {
+        if (resume?.file?.url && resume.file.name && resume.file.size) {
+        setFileState({
+            status: 'saved',
+            file: {
+            name: resume.file.name,
+            url: resume.file.url,
+            size: resume.file.size,
+            },
+        });
+        }
+    }, [resume]);
 
     const handleReset = () => {
         setFileState({ status: 'empty'})
@@ -64,9 +80,9 @@ export default function UploadPageClient () {
                     maxFiles={1}
                     icon={
                         fileState.status != 'empty' ? (
-                            <Image src='/uploaded-pdf.svg' alt='uploaded' height={6} width={6} /> 
+                            <Image src='/uploaded-pdf.svg' alt='uploaded' height={30} width={30} /> 
                         ) : (
-                            <Linkedin className='h-6 w-6 text-gray-600' />
+                            <Linkedin className='h-8 w-8 text-gray-600' />
                         )
                     }
                     title={
@@ -126,7 +142,7 @@ export default function UploadPageClient () {
                             </>
                         ) : (
                             <> 
-                                <Image src='/sparkle.png' alt='sparkle icon' width={20} height={20} style={{ marginRight: '0.5rem' }} />
+                                <Image src='/sparkle.png' alt='sparkle icon' width={20} height={20} style={{ marginRight: '0.5rem',}} />
                                 Generate Portfolio
                             </>
                         )} 
