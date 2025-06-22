@@ -9,7 +9,7 @@ export type PostResponse = { success: true } |
     { error: string; details?: z.ZodError['errors']}
 
 // GET api to retrive resume
-export async function Get(): Promise<NextResponse<GetResponse>> {
+export async function GET(): Promise<NextResponse<GetResponse>> {
     try {
         const user = await currentUser();
         if (!user) {
@@ -39,7 +39,7 @@ export async function POST(request: Request): Promise<NextResponse<PostResponse>
                 { status: 401 }
             )
         }
-        const { body } = await request.json()
+        const body  = await request.json()
         if (!body) {
             return NextResponse.json(
                 { error: 'Resume required' }
@@ -47,6 +47,7 @@ export async function POST(request: Request): Promise<NextResponse<PostResponse>
         }
 
         await storeResume(user.id, body)
+        console.log('success')
         return NextResponse.json({ success: true})
     } catch(error) {
         if (error instanceof z.ZodError) {

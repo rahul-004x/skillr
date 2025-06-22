@@ -68,8 +68,8 @@ const EducationSection = z.array(
 export const ResumeDataSchema = z.object({
   header: HeaderSection,
   summary: SummarySection,
-  workExperience: WorkExperienceSection,
-  projects: ProjectSection,
+  workExperience: WorkExperienceSection.nullish(),
+  projects: ProjectSection.nullish(),
   education: EducationSection,
 });
 

@@ -20,7 +20,7 @@ const FileSchema = z.object({
 const  FORBIDDEN_USERNAME  = PRIVATE_ROUTES
 
 // Resume schema
-const ResumeSchema = z.object({
+export const ResumeSchema = z.object({
   status: z.enum(['live', 'draft']).default('draft'),
   file: FileSchema.nullish(),
   filsContent: z.string().nullish(),
@@ -49,9 +49,8 @@ export async function storeResume(
   resumeData: Resume,
 ): Promise<void> {
   try {
-    const validateDate = ResumeDataSchema.parse(resumeData)
     await upstashRedis.set(
-      `${REDIS_KEYS.RESUME_PREFIX}${userId}`, validateDate
+      `${REDIS_KEYS.RESUME_PREFIX}${userId}`, resumeData
     );
   } catch (error) {
     if (error instanceof z.ZodError) {

@@ -19,8 +19,8 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { Button } from '@/components/ui/button';
+import { useUserAction } from '@/hooks/useUserAction'
 import { CustomSpinner } from '@/components/CustomSpinner';
-
 
 type FileState = 
     | { status: 'empty'}
@@ -29,11 +29,17 @@ type FileState =
 export default function UploadPageClient () {
       const router = useRouter();
 
-    // const [resumeQuery, uploadResumeMutation] = 
+    const { resumeQuery, uploadResumeMutation } = useUserAction()
     const [fileState, setFileState] = useState<FileState>({ status: 'empty'})
 
     const handleReset = () => {
         setFileState({ status: 'empty'})
+    }
+
+    const isUpdating = resumeQuery.isPending || uploadResumeMutation.isPending
+
+    const handleUploadFile = async (file: File) => {
+        uploadResumeMutation.mutate(file)
     }
 
   return (
@@ -48,7 +54,7 @@ export default function UploadPageClient () {
                     <button
                         onClick={handleReset}
                         className='absolute top-2 right-2 p-1 hover:bg-gray-100 rounded-full z-10'
-                        // disabled={isUpdating}
+                        disabled={isUpdating}
                     >
                         <X className='h-4 w-4 text-gray-500' />
                     </button>
@@ -78,10 +84,10 @@ export default function UploadPageClient () {
                             }
                         </span>
                     }
-                    // isUploading={uploadResumeMutation.isPending}
-                    // onDrop={(acceptedFiles) => {
-                    // if (acceptedFiles[0]) handleUploadFile(acceptedFiles[0]);
-                    // }}
+                    isUploading={uploadResumeMutation.isPending}
+                    onDrop={(acceptedFiles) => {
+                    if (acceptedFiles[0]) handleUploadFile(acceptedFiles[0]);
+                    }}
                     onDropRejected={() => toast.error('Only PDF files are supported')}
                 />
                 <Dialog>
@@ -113,17 +119,17 @@ export default function UploadPageClient () {
                         disabled={fileState.status === 'empty'}
                         onClick={() => router.push('pdf')}
                     >
-                        {/* {isUpdating ? (
+                         {isUpdating ? (
                             <>
                                 <CustomSpinner className='h-5 w-5 mr-2'/>
                                 Processing...
                             </>
                         ) : (
-                            <> */}
+                            <> 
                                 <Image src='/sparkle.png' alt='sparkle icon' width={20} height={20} style={{ marginRight: '0.5rem' }} />
                                 Generate Portfolio
-                            {/* </>
-                        )} */}
+                            </>
+                        )} 
                     </Button>
 
                     {fileState.status === 'empty' && (
