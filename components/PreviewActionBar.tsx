@@ -1,17 +1,17 @@
-'use client';
+"use client";
+import React, { useState } from "react";
+import Image from "next/image";
+import { cn, getPersonalUrl } from "@/lib/utils";
+import { toast } from "sonner";
+import { Button } from "./ui/button";
+import { Pencil } from "lucide-react";
+import UsernameEditorView from "./UsernameEditorView";
 
-import { Button } from '@/components/ui/button';
-import { cn, getSelfSoUrl } from '@/lib/utils';
-import { Pencil } from 'lucide-react';
-import { useState } from 'react';
-import { toast } from 'sonner';
-import UsernameEditorView from './UsernameEditorView';
+export type PublishStatuses = "draft" | "live";
 
-export type PublishStatuses = 'draft' | 'live';
-
-export default function PreviewActionbar({
-  initialUsername = '',
-  prefix = 'self.so/',
+const PreviewActionbar = ({
+  initialUsername = "",
+  prefix = "reflect.me",
   status,
   onStatusChange,
   isChangingStatus,
@@ -21,13 +21,13 @@ export default function PreviewActionbar({
   status?: PublishStatuses;
   onStatusChange?: (newStatus: PublishStatuses) => Promise<void>;
   isChangingStatus?: boolean;
-}) {
+}) => {
   const [isEditorOpen, setIsEditorOpen] = useState(false);
 
   const handleStatusChange = async () => {
     if (onStatusChange) {
       // Toggle the status
-      const newStatus = status === 'draft' ? 'live' : 'draft';
+      const newStatus = status === "draft" ? "live" : "draft";
       await onStatusChange(newStatus);
     }
   };
@@ -37,20 +37,23 @@ export default function PreviewActionbar({
       <div className="w-full rounded-lg bg-[#fcfcfc] border-[0.5px] border-neutral-300 flex items-center justify-between py-3 px-5  sm:px-4 sm:py-2.5  flex-col sm:flex-row gap-4">
         <div className="flex flex-col sm:flex-row items-center gap-4 w-full">
           <div className="flex items-center gap-1 mr-1">
-            <img
+            <Image
               src="/link-icon.png"
+              alt="link-icon"
               className={cn(
-                'w-4 h-4 text-design-black ',
-                status === 'live' && 'cursor-pointer'
+                "w-4 h-4 text-black/95 ",
+                status === "live" && "cursor-pointer",
               )}
+              height={16}
+              width={16}
               onClick={() => {
-                if (!initialUsername || status !== 'live') return;
-                const portofolioUrl = getSelfSoUrl(initialUsername);
+                if (!initialUsername || status !== "live") return;
+                const portofolioUrl = getPersonalUrl(initialUsername);
                 navigator.clipboard.writeText(portofolioUrl);
-                toast.success('Copied link to your website');
+                toast.success("Copied link to your website");
               }}
             />
-            <p className="text-sm text-design-black">{prefix}</p>
+            <p className="text-sm text-black/95">{prefix}</p>
           </div>
 
           <div className="overflow-hidden rounded bg-white border-[0.5px] border-neutral-300 flex flex-row md:w-80 w-full">
@@ -72,17 +75,17 @@ export default function PreviewActionbar({
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
             <div className="flex items-center gap-1">
-              {status === 'live' ? (
+              {status === "live" ? (
                 <button
                   onClick={() =>
-                    window.open(getSelfSoUrl(initialUsername), '_blank')
+                    window.open(getPersonalUrl(initialUsername), "_blank")
                   }
                   className="flex items-center gap-1 hover:opacity-80 transition-opacity"
                 >
                   <div
                     className="size-1.5 rounded-full relative"
                     style={{
-                      backgroundColor: '#009505',
+                      backgroundColor: "#009505",
                     }}
                   >
                     <div className="absolute inset-0 rounded-full bg-[#009505] animate-ping opacity-50" />
@@ -96,7 +99,7 @@ export default function PreviewActionbar({
                   <div
                     className="size-1.5 rounded-full"
                     style={{
-                      backgroundColor: '#B98900',
+                      backgroundColor: "#B98900",
                     }}
                   />
                   <p className="text-[10px] font-bold uppercase text-[#B98900]">
@@ -108,13 +111,13 @@ export default function PreviewActionbar({
 
             <Button
               key={status}
-              variant={'default'}
+              variant={"default"}
               disabled={isChangingStatus}
               onClick={handleStatusChange}
               className={`flex items-center min-w-[100px] min-h-8 gap-1.5 px-3 py-1.5 h-auto ${
-                status === 'draft'
-                  ? 'bg-design-black hover:bg-[#333333] text-[#fcfcfc]'
-                  : 'bg-design-white text-design-black hover:bg-gray-100'
+                status === "draft"
+                  ? "bg-black/95 hover:bg-[#333333] text-[#fcfcfc]"
+                  : "bg-white/95 text-black/95 hover:bg-gray-100"
               }`}
             >
               {isChangingStatus ? (
@@ -123,14 +126,14 @@ export default function PreviewActionbar({
                 </>
               ) : (
                 <span className="text-sm">
-                  {status === 'draft' ? 'Publish' : 'Unpublish'}
+                  {status === "draft" ? "Publish" : "Unpublish"}
                 </span>
               )}
             </Button>
-            {status === 'live' && (
+            {status === "live" && (
               <Button className="flex items-center min-w-[100px] min-h-8 gap-1.5 px-3 py-1.5 h-auto">
                 <a
-                  href={`${getSelfSoUrl(initialUsername)}`}
+                  href={`${getPersonalUrl(initialUsername)}`}
                   target="_blank"
                   rel="noreferrer"
                 >
@@ -141,7 +144,6 @@ export default function PreviewActionbar({
           </div>
         </div>
       </div>
-
       <UsernameEditorView
         initialUsername={initialUsername}
         isOpen={isEditorOpen}
@@ -150,4 +152,6 @@ export default function PreviewActionbar({
       />
     </>
   );
-}
+};
+
+export default PreviewActionbar;

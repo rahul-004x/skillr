@@ -5,9 +5,8 @@ import { ReactQueryProvider } from "@/components/ReactQueryProvider";
 import "./globals.css";
 
 const mono = JetBrains_Mono({
-  subsets: ['latin']
-})
-
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -22,11 +21,9 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={`${mono.className} min-h-screen flex flex-col`} >
+        <body className={`${mono.className} min-h-screen flex flex-col`}>
           <ReactQueryProvider>
-            <main className="flex-1 flex flex-col">
-                {children}
-              </main> 
+            <main className="flex-1 flex flex-col">{children}</main>
           </ReactQueryProvider>
         </body>
       </html>

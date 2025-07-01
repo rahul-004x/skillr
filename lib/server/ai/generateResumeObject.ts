@@ -6,11 +6,10 @@ import dedent from 'dedent'
 // Create together ai client with helicon ai {ai observability and monitoring tool}
 const togetherAI = createTogetherAI({
     apiKey: process.env.TOGETHER_API_KEY ?? '',
-    baseURL: 'https://together.helicon.ai/v1',
-    headers: {
-        'Helicon-Auth': `Bearer ${process.env.HELICON_API_KEY}` ,
-        'Header-Property-AppName': 'reflect.me'
-    }
+    // baseURL: 'https://together.helicon.ai/v1',
+    // headers: {
+    //     'Helicon-Auth': `Bearer ${process.env.HELICON_API_KEY}` 
+    // }
 })
 
 /**

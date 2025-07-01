@@ -23,7 +23,7 @@ const  FORBIDDEN_USERNAME  = PRIVATE_ROUTES
 export const ResumeSchema = z.object({
   status: z.enum(['live', 'draft']).default('draft'),
   file: FileSchema.nullish(),
-  filsContent: z.string().nullish(),
+  fileContent: z.string().nullish(),
   resumeData: ResumeDataSchema.nullish()
 })
 

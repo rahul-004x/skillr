@@ -1,6 +1,6 @@
-import { TopMenu } from "@/components/TopMenu"
-import { BorderBeam } from '@/components/ui/BorderBeam';
-import { BlurFade } from '@/components/ui/BlurFade';
+import { TopMenu } from "@/components/TopMenu";
+import { BorderBeam } from "@/components/ui/BorderBeam";
+import { BlurFade } from "@/components/ui/BlurFade";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";

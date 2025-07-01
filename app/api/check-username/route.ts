@@ -8,11 +8,11 @@ export type PostResponse = { available: boolean } | { error: string }
 export async function POST(request: Request): Promise<NextResponse<PostResponse>> {
     try {
         const { searchParams } = new URL(request.url)
-        const username = searchParams.get('username ')
+        const username = searchParams.get('username') // Fixed: removed extra space
 
         if (!username || typeof username !== 'string') {
             return NextResponse.json(
-                {error: 'username paramer is required'},
+                {error: 'username parameter is required'},
                 {status: 400}
             )
         }
@@ -21,11 +21,10 @@ export async function POST(request: Request): Promise<NextResponse<PostResponse>
         return NextResponse.json({ available })
 
     } catch(error) {
-        console.error('Error check username availability', error)
+        console.error('Error checking username availability', error)
         return NextResponse.json(
             { error: 'Internal Server Error'},
             { status: 500 }
         )
     }
-    
 }
