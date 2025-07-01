@@ -1,9 +1,10 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { checkUsernameAvailability, Resume } from "@/lib/server/redisActions";
+import { Resume } from "@/lib/server/redisActions";
 import { useS3Upload } from "next-s3-upload";
 import { PublishStatuses } from "@/components/PreviewActionBar";
 import { ResumeDataSchema } from "@/lib/resume";
 import { ResumeData } from "@/lib/server/redisActions";
+import { useDebouncedCallback } from "use-debounce";
 
 const fetchResume = async (): Promise<{ resume: Resume | undefined }> => {
   const response = await fetch("/api/resume");
@@ -159,11 +160,21 @@ export function useUserActions() {
   };
 
   const checkUsernameMutation = useMutation({
-    mutationFn: checkUsernameAvailability,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["username-availability"] });
-    },
+    mutationFn: async (username: string) => {
+      const response = await fetch(`/api/check-username?username=${encodeURIComponent(username)}`, {
+        method: 'POST',
+      });
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Failed to check username availability');
+      }
+      return await response.json();
+    }
   });
+
+  const debouncedCheckUsername = useDebouncedCallback((username: string) => {
+    checkUsernameMutation.mutate(username);
+  }, 500);
 
   const updateUsernameMutation = useMutation({
     mutationFn: internalUsernameUpdate,
@@ -187,6 +198,7 @@ export function useUserActions() {
     toggleStatusMutation,
     usernameQuery,
     checkUsernameMutation,
+    debouncedCheckUsername,
     updateUsernameMutation,
     saveResumeDataMutation,
   };

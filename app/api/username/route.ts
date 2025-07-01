@@ -38,10 +38,10 @@ export async function POST(request: Request): Promise<NextResponse<PostResponse>
 
         const { username } = await request.json()
 
-        if(!username || typeof username === 'string') {
+        if(!username || typeof username !== 'string') {
             return NextResponse.json(
                 { error: "Username is required"},
-                { status: 500 }
+                { status: 400 }
             )
         }
 

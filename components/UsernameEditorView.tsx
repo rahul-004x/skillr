@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useIsMobile } from "../hooks/use-mobile";
 import {
   Dialog,
@@ -31,8 +31,7 @@ function UsernameEditorContent({
   onClose,
 }: UsernameEditorContentProps) {
   const [newUsername, setNewUsername] = useState<string>(initialUsername);
-  const { updateUsernameMutation, checkUsernameMutation } = useUserActions();
-  const debounceRef = useRef<NodeJS.Timeout | null>(null);
+  const { updateUsernameMutation, checkUsernameMutation, debouncedCheckUsername } = useUserActions();
 
   const isInitialUsername = newUsername === initialUsername;
 
@@ -42,16 +41,10 @@ function UsernameEditorContent({
 
   useEffect(() => {
     if (!isInitialUsername && newUsername) {
-      if (debounceRef.current) {
-        clearTimeout(debounceRef.current);
-      }
-
-      // set new Timeout
-      debounceRef.current = setTimeout(() => {
-        checkUsernameMutation.mutateAsync(newUsername);
-      }, 500);
+      debouncedCheckUsername(newUsername);
     }
-  }, [newUsername, isInitialUsername, checkUsernameMutation]);
+  }, [newUsername, isInitialUsername, debouncedCheckUsername]);
+
   const isValid =
     /^[a-zA-Z0-9-]+$/.test(newUsername) &&
     newUsername.length > 0 &&
