@@ -7,10 +7,13 @@ import PreviewActionbar from "@/components/PreviewActionBar";
 import { useUserActions } from "@/hooks/useUserAction";
 import { getPersonalUrl } from "@/lib/utils";
 import { toast } from "sonner";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { Eye, Edit } from "lucide-react";
 
 export default function PreviewClient({ messageTip }: { messageTip?: string }) {
   const [showModalSiteLive, setModalSiteLive] = useState(false);
   const [localResumeData, setLocalResumeData] = useState<ResumeData>();
+  const [isEditMode, setIsEditMode] = useState(false);
 
   const { resumeQuery, toggleStatusMutation, usernameQuery } = useUserActions();
 
@@ -122,6 +125,23 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
           }}
           isChangingStatus={toggleStatusMutation.isPending}
         />
+      </div>
+      <div className="max-w-3xl mx-auto w-full flex flex-col md:flex-row justify-between items-center px-4 md:px-0 gap-4">
+        <ToggleGroup
+          type="single"
+          value={isEditMode ? "edit" : "preview"}
+          onValueChange={(value) => setIsEditMode(value === "edit")}
+          aria-label="View mode"
+        >
+          <ToggleGroupItem value="preview" aria-label="Preview mode">
+            <Eye className="h-4 w-4 mr-1" />
+            <span>Preview</span>
+          </ToggleGroupItem>
+          <ToggleGroupItem value="edit" aria-label="Edit mode">
+            <Edit className="h-4 w-4 mr-1" />
+            <span>Edit</span>
+          </ToggleGroupItem>
+        </ToggleGroup>
       </div>
     </div>
   );

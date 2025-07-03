@@ -24,21 +24,21 @@ async function LLMProcessing({ userId }: { userId: string }) {
 
   if (!resume.resumeData) {
     let resumeObject;
-    
+
     try {
-      console.log('Starting resume generation process...');
+      console.log("Starting resume generation process...");
       resumeObject = await generateResumeObject(resume?.fileContent);
-      
+
       if (!resumeObject) {
-        throw new Error('Resume object generation returned undefined');
+        throw new Error("Resume object generation returned undefined");
       }
-      
-      console.log('Successfully generated resume object');
+
+      console.log("Successfully generated resume object");
     } catch (error) {
-      console.error('Failed to generate resume object:', error);
+      console.error("Failed to generate resume object:", error);
       messageTip =
         "We couldn't fully extract data from your PDF. Some information may need to be edited manually.";
-        
+
       // Create a default resume object using user data
       resumeObject = {
         header: {
@@ -52,19 +52,21 @@ async function LLMProcessing({ userId }: { userId: string }) {
             phone: undefined,
             twitter: undefined,
             linkedin: undefined,
-            github: undefined
+            github: undefined,
           },
           skills: ["Add your skills here"],
         },
         summary: "You should add a summary here",
         workExperience: [],
         projects: [],
-        education: [{
-          school: "University",
-          degree: "Degree",
-          start: "2020",
-          end: "2024"
-        }],
+        education: [
+          {
+            school: "University",
+            degree: "Degree",
+            start: "2020",
+            end: "2024",
+          },
+        ],
       };
     }
 
