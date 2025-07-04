@@ -99,7 +99,7 @@ export function Header({
           {header.name}
         </h1>
         <p
-          className="text-pretty font-mono text-sm print:text-[12px] text-[#6B7280] inline-block align-middle"
+          className="max-w-md text-pretty font-mono text-sm print:text-[12px] text-[#6B7280] inline-block align-middle"
           aria-labelledby="resume-name"
         >
           {header.shortAbout}
@@ -197,7 +197,7 @@ export function Header({
           )}
         </div>
       </div>
-      <Avatar className="size-20">
+      <Avatar className="size-28">
         <AvatarImage src={picture} alt={`${header?.name} profile's picture`} />
         <AvatarFallback>
           {header.name

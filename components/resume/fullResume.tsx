@@ -13,7 +13,10 @@ export const FullResume = ({
     return <LoadingFallback message="lodading resume ...." />;
   }
   return (
-    <section>
+    <section
+      className="mx-auto w-full max-w-2xl space-y-8 my-8 bg-white print:space-y-4 px-4"
+      aria-label="Resume content"
+    >
       <Header header={resume?.header} picture={profilePicture} />
     </section>
   );
