@@ -159,6 +159,43 @@ export function Header({
             />
           )}
         </div>
+        <div
+          className="hidden gap-x-2 font-mono text-sm print:flex print:text-[12px]"
+          aria-label="print contact information"
+        >
+          {sociaLinks.website && (
+            <>
+              <a
+                className="underline hover:text-foreground/70"
+                href={sociaLinks.website}
+              >
+                {new URL(sociaLinks.website).hostname}
+              </a>
+              <span aria-hidden="true">/</span>
+            </>
+          )}
+          {header.contacts.email && (
+            <>
+              <a
+                className="underline hover:text-foreground/70"
+                href={`mailto: ${header.contacts.email}`}
+              >
+                {header.contacts.email}
+              </a>
+              <span aria-hidden="true">/</span>
+            </>
+          )}
+          {header.contacts.phone && (
+            <>
+              <a
+                className="underline hover:text-foreground/70"
+                href={`tel: ${header.contacts.phone}`}
+              >
+                {header.contacts.phone}
+              </a>
+            </>
+          )}
+        </div>
       </div>
       <Avatar className="size-20">
         <AvatarImage src={picture} alt={`${header?.name} profile's picture`} />
