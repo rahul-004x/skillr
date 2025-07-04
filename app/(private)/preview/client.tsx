@@ -9,6 +9,8 @@ import { getPersonalUrl } from "@/lib/utils";
 import { toast } from "sonner";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Eye, Edit } from "lucide-react";
+import { FullResume } from "@/components/resume/fullResume";
+import { useUser } from "@clerk/nextjs";
 
 export default function PreviewClient({ messageTip }: { messageTip?: string }) {
   const [showModalSiteLive, setModalSiteLive] = useState(false);
@@ -16,6 +18,8 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
   const [isEditMode, setIsEditMode] = useState(false);
 
   const { resumeQuery, toggleStatusMutation, usernameQuery } = useUserActions();
+
+  const { user } = useUser();
 
   useEffect(() => {
     if (resumeQuery.data?.resume?.resumeData) {
@@ -142,6 +146,9 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
             <span>Edit</span>
           </ToggleGroupItem>
         </ToggleGroup>
+      </div>
+      <div className="max-w-3xl mx-auto w-full md:rounded-lg border-[0.5px] flex items-center justify-between px-4 py-1">
+        <FullResume resume={localResumeData} profilePicture={user?.imageUrl} />
       </div>
     </div>
   );
