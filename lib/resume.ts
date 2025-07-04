@@ -1,7 +1,11 @@
 import { z } from "zod";
 
 const HeaderContactsSchema = z.object({
-  website: z.string().describe("Personal website or portfolio URL").optional().nullable(),
+  website: z
+    .string()
+    .describe("Personal website or portfolio URL")
+    .optional()
+    .nullable(),
   email: z.string().describe("Email address").optional().nullable(),
   phone: z.string().describe("Phone number").optional().nullable(),
   twitter: z.string().describe("Twitter/X username").optional().nullable(),
@@ -34,7 +38,12 @@ const SummarySection = z
 const WorkExperienceSection = z.array(
   z.object({
     company: z.string().describe("Company name"),
-    link: z.string().describe("Company website URL").nullable().optional().default(""),
+    link: z
+      .string()
+      .describe("Company website URL")
+      .nullable()
+      .optional()
+      .default(""),
     location: z
       .string()
       .describe(
