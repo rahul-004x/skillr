@@ -199,18 +199,12 @@ export function Header({
       </div>
       <Avatar className="size-20">
         <AvatarImage src={picture} alt={`${header?.name} profile's picture`} />
-        {/* <AvatarFallback */}
-        {/*   {header.name */}
-        {/*     .split(' ') */}
-        {/*     .map((n) => n[0]) */}
-        {/*     .join('') */}
-        {/*   } */}
-        {/* > */}
-        {/* </AvatarFallback> */}
-        {/*     .join('') */}
-        {/*   } */}
-        {/* > */}
-        {/* </AvatarFallback> */}
+        <AvatarFallback>
+          {header.name
+            .split(" ")
+            .map((n) => n[0])
+            .join("")}
+        </AvatarFallback>
       </Avatar>
     </header>
   );
