@@ -1,6 +1,7 @@
 import { ResumeData } from "@/lib/server/redisActions";
 import LoadingFallback from "../LoadingFallback";
 import { Header } from "./header";
+import { Summery } from "./Summery";
 
 export const FullResume = ({
   resume,
@@ -18,6 +19,9 @@ export const FullResume = ({
       aria-label="Resume content"
     >
       <Header header={resume?.header} picture={profilePicture} />
+      <div>
+        <Summery summary={resume?.summary} />
+      </div>
     </section>
   );
 };
