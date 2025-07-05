@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { JetBrains_Mono } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
-import { ReactQueryProvider } from "@/components/ReactQueryProvider";
+import { ReactQueryClientProvider } from "@/components/ReactQueryClientProvider";
 import "./globals.css";
 
 const mono = JetBrains_Mono({
@@ -22,9 +22,9 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={`${mono.className} min-h-screen flex flex-col`}>
-          <ReactQueryProvider>
+          <ReactQueryClientProvider>
             <main className="flex-1 flex flex-col">{children}</main>
-          </ReactQueryProvider>
+          </ReactQueryClientProvider>
         </body>
       </html>
     </ClerkProvider>

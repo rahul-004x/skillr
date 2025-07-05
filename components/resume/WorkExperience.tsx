@@ -18,10 +18,11 @@ export const WorkExperience = (props: {
       )
       .map((item) => ({
         ...item,
-        formattedDate: `${getShortMonth(item.start)} ${getYear(item.start)} - ${!!item.end
+        formattedDate: `${getShortMonth(item.start)} ${getYear(item.start)} - ${
+          !!item.end
             ? `${getShortMonth(item.end)} ${getYear(item.end)}`
             : "present"
-          }`,
+        }`,
         companyLower: item.company.toLowerCase(),
       }));
   }, [work]);
@@ -30,7 +31,7 @@ export const WorkExperience = (props: {
   }
 
   return (
-    <section>
+    <section className="flex min-h-0 flex-col gap-y-3 print:gap-y-1">
       <h2 className="text-lg font-bold" id="work-experience">
         Work Experience
       </h2>

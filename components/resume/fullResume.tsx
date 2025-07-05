@@ -3,6 +3,7 @@ import LoadingFallback from "../LoadingFallback";
 import { Header } from "./header";
 import { Summery } from "./Summery";
 import { WorkExperience } from "./WorkExperience";
+import Education from "./Education";
 
 export const FullResume = ({
   resume,
@@ -24,6 +25,9 @@ export const FullResume = ({
         <Summery summary={resume?.summary} />
         {resume.workExperience.length !== 0 && (
           <WorkExperience work={resume.workExperience} />
+        )}
+        {resume.education.length !== 0 && (
+          <Education education={resume.education} />
         )}
       </div>
     </section>
