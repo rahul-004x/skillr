@@ -2,6 +2,7 @@ import { ResumeData } from "@/lib/server/redisActions";
 import LoadingFallback from "../LoadingFallback";
 import { Header } from "./header";
 import { Summery } from "./Summery";
+import { WorkExperience } from "./WorkExperience";
 
 export const FullResume = ({
   resume,
@@ -19,8 +20,11 @@ export const FullResume = ({
       aria-label="Resume content"
     >
       <Header header={resume?.header} picture={profilePicture} />
-      <div>
+      <div className="flex flex-col gap-y-6">
         <Summery summary={resume?.summary} />
+        {/* {resume.workExperience.length !== 0 && ( */}
+        <WorkExperience work={resume.workExperience} />
+        {/* )} */}
       </div>
     </section>
   );
