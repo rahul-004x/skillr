@@ -22,9 +22,9 @@ export const FullResume = ({
       <Header header={resume?.header} picture={profilePicture} />
       <div className="flex flex-col gap-y-6">
         <Summery summary={resume?.summary} />
-        {/* {resume.workExperience.length !== 0 && ( */}
-        <WorkExperience work={resume.workExperience} />
-        {/* )} */}
+        {resume.workExperience.length !== 0 && (
+          <WorkExperience work={resume.workExperience} />
+        )}
       </div>
     </section>
   );
