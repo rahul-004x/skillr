@@ -13,20 +13,38 @@ const EducationItem = (education: ResumeDataSchemaType["education"][0]) => {
   return (
     <Card>
       <CardHeader>
-        <h3>{school}</h3>
-        <div>
-          {getYear(start)} - {end ? `${getYear(end)}` : "Present"}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-base">
+          <h3
+            className="font-semibold leading-none"
+            id={`education-${school.toLocaleUpperCase().replace(/\s+/g, "-")}`}
+          >
+            {school}
+          </h3>
+          <div
+            className="text-sm tabular-nums text-gray-500"
+            aria-label={`Period: ${getYear(start)} to ${end ? `${getYear(end)}` : "Present"}`}
+          >
+            {getYear(start)} - {end ? `${getYear(end)}` : "Present"}
+          </div>
         </div>
       </CardHeader>
-      <CardContent>{degree}</CardContent>
+      <CardContent className="mt-2 text-[#6B7280] print:text-[12px]">
+        {degree}
+      </CardContent>
     </Card>
   );
 };
 
-const Education = ({ education }: { education: ResumeDataSchemaType["education"] }) => {
+const Education = ({
+  education,
+}: {
+  education: ResumeDataSchemaType["education"];
+}) => {
   const validEducation = useMemo(() => {
     const educationArray = Array.isArray(education) ? education : [];
-    return educationArray.filter((edu) => edu.school && edu.degree && edu.start);
+    return educationArray.filter(
+      (edu) => edu.school && edu.degree && edu.start,
+    );
   }, [education]);
 
   return (
