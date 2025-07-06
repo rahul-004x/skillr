@@ -4,6 +4,7 @@ import { Header } from "./header";
 import { Summery } from "./Summery";
 import { WorkExperience } from "./WorkExperience";
 import Education from "./Education";
+import { Skills } from "./Skills";
 
 export const FullResume = ({
   resume,
@@ -29,6 +30,7 @@ export const FullResume = ({
         {resume.education.length !== 0 && (
           <Education education={resume.education} />
         )}
+        <Skills skills={resume.header.skills} />
       </div>
     </section>
   );
