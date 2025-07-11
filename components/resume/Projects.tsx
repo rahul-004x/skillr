@@ -1,5 +1,11 @@
 import { ResumeDataSchemaType } from "@/lib/resume";
 
+/*
+ * Project section component for rendering list of projects and their resumeUtils
+ * @param {projects} - component props
+ * @return The rendered project section
+ */
+
 export const Projects = ({
   projects,
 }: {
@@ -29,7 +35,9 @@ export const Projects = ({
                   <strong className="font-mono tracking-tight">
                     Tech stack:{" "}
                   </strong>
-                  {item.tools}
+                  {Array.isArray(item.tools)
+                    ? item.tools.join(", ")
+                    : item.tools}
                 </p>
               </div>
               <div className="flex flex-col justify-start items-start gap-1.5 self-stretch text-sm font-medium text-left text-[#6c737f]">
