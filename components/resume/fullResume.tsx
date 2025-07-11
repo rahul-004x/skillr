@@ -5,6 +5,7 @@ import { Summery } from "./Summery";
 import { WorkExperience } from "./WorkExperience";
 import Education from "./Education";
 import { Skills } from "./Skills";
+import { Projects } from "./Projects";
 
 export const FullResume = ({
   resume,
@@ -27,6 +28,7 @@ export const FullResume = ({
         {resume.workExperience.length !== 0 && (
           <WorkExperience work={resume.workExperience} />
         )}
+        <Projects projects={resume.projects} />
         {resume.education.length !== 0 && (
           <Education education={resume.education} />
         )}

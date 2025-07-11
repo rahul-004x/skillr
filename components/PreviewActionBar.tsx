@@ -114,11 +114,10 @@ const PreviewActionbar = ({
               variant={"default"}
               disabled={isChangingStatus}
               onClick={handleStatusChange}
-              className={`flex items-center min-w-[100px] min-h-8 gap-1.5 px-3 py-1.5 h-auto ${
-                status === "draft"
+              className={`flex items-center min-w-[100px] min-h-8 gap-1.5 px-3 py-1.5 h-auto ${status === "draft"
                   ? "bg-black/95 hover:bg-[#333333] text-[#fcfcfc]"
                   : "bg-white/95 text-black/95 hover:bg-gray-100"
-              }`}
+                }`}
             >
               {isChangingStatus ? (
                 <>

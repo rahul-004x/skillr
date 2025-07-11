@@ -21,7 +21,7 @@ export const generateResumeObject = async (resumeText: string) => {
   const startTime = Date.now();
   try {
     const { object } = await generateObject({
-      model: togetherAI("Qwen/Qwen2.5-72B-Instruct-Turbo"),
+      model: togetherAI("meta-llama/Llama-3.3-70B-Instruct-Turbo-Free"),
       maxRetries: 1,
       schema: ResumeDataSchema,
       mode: "json",
