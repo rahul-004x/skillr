@@ -11,6 +11,7 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Eye, Edit } from "lucide-react";
 import { FullResume } from "@/components/resume/fullResume";
 import { useUser } from "@clerk/nextjs";
+import { EditResume } from "@/components/resume/editing/EditResume";
 
 export default function PreviewClient({ messageTip }: { messageTip?: string }) {
   const [showModalSiteLive, setModalSiteLive] = useState(false);
@@ -148,7 +149,17 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
         </ToggleGroup>
       </div>
       <div className="max-w-3xl mx-auto w-full md:rounded-lg border-[0.5px] flex items-center justify-between px-4 py-1">
-        <FullResume resume={localResumeData} profilePicture={user?.imageUrl} />
+        {isEditMode ? (
+          <EditResume
+            resume={localResumeData}
+            onChangeResume={(newResume) => setLocalResumeData(newResume)}
+          />
+        ) : (
+          <FullResume
+            resume={localResumeData}
+            profilePicture={user?.imageUrl}
+          />
+        )}
       </div>
     </div>
   );

@@ -30,7 +30,7 @@ export const generateResumeObject = async (resumeText: string) => {
                     
                     Instructions:
                     - Extract all personal information, contact details, education, work experience, skills, and other relevant sections
-                    - Pay special attention to the "Technical Skills" section and populate the header.skills array with ALL individual skills mentioned
+                    - Pay special attention to the "Technical Skills", "skills" section and populate the header.skills array with ALL individual skills mentioned
                     - For skills, look for keywords like "Technical Skills", "Skills", "Technologies", "Proficiencies", etc.
                     - Extract each specific technology and skill (like "HTML", "CSS", "JavaScript", "React", "Node.js", etc.) into the skills array
                     - Maintain accurate dates and formatting
@@ -51,7 +51,7 @@ export const generateResumeObject = async (resumeText: string) => {
     console.log(
       `Generating resume object takes ${(endTime - startTime) / 1000} seconds`,
     );
-    console.log(object)
+    console.log(object);
     return object;
   } catch (error) {
     console.error("Error generating resume object", error);
