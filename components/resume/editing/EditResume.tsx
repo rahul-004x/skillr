@@ -60,6 +60,148 @@ export const EditResume = ({
               placeholder="your location"
             />
           </div>
+          <div className="flex flex-col gap-2 col-span-2">
+            <Label
+              htmlFor="shortAbout"
+              className="text-sm font-medium text-gray-700"
+            >
+              Short About
+            </Label>
+            <textarea
+              className="w-full p-2 border rounded-md font-mono text-sm"
+              id="shortAbout"
+              value={resume?.header.shortAbout || ""}
+              onChange={(e) => {
+                onChangeResume({
+                  ...resume,
+                  header: {
+                    ...resume.header,
+                    shortAbout: e.target.value,
+                  },
+                });
+              }}
+              rows={4}
+              placeholder="Brief description about yourself..."
+            />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 col-span-2">
+            <div className="flex flex-col gap-2">
+              <Label id="email" className="text-sm font-medium text-gray-700">
+                Email
+              </Label>
+              <Input
+                id="email"
+                type="text"
+                value={resume?.header.contacts?.email || ""}
+                onChange={(e) => {
+                  onChangeResume({
+                    ...resume,
+                    header: {
+                      ...resume.header,
+                      contacts: {
+                        ...resume.header.contacts,
+                        email: e.target.value,
+                      },
+                    },
+                  });
+                }}
+              />
+            </div>
+            <div className="flex flex-col gap-2">
+              <Label id="phone" className="text-sm font-medium text-gray-700">
+                Phone Number
+              </Label>
+              <Input
+                id="Phone"
+                type="text"
+                value={resume?.header.contacts?.phone || ""}
+                onChange={(e) => {
+                  onChangeResume({
+                    ...resume,
+                    header: {
+                      ...resume.header,
+                      contacts: {
+                        ...resume.header.contacts,
+                        phone: e.target.value,
+                      },
+                    },
+                  });
+                }}
+              />
+            </div>
+            <div className="flex flex-col gap-2 col-span-2">
+              <Label className="text-sm font-medium text-gray-700">
+                Social Links
+              </Label>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {[
+                  {
+                    id: "website",
+                    label: "Website",
+                    prefix: "",
+                    placeholder: "your-website.com",
+                    key: "website",
+                  },
+                  {
+                    id: "github",
+                    label: "GitHub",
+                    prefix: "github.com/",
+                    placeholder: "username",
+                    key: "github",
+                  },
+                  {
+                    id: "linkedin",
+                    label: "LinkedIn",
+                    prefix: "linkedin.com/in/",
+                    placeholder: "username",
+                    key: "linkedin",
+                  },
+                  {
+                    id: "twitter",
+                    label: "Twitter/X",
+                    prefix: "x.com/",
+                    placeholder: "username",
+                    key: "twitter",
+                  },
+                ].map(({ id, label, prefix, placeholder, key }) => (
+                  <div key={id} className="flex flex-col gap-2">
+                    <Label className="text-sm font-medium text-gray-600">
+                      {label}
+                    </Label>
+                    <div className="flex items-center">
+                      {prefix && (
+                        <span className="text-sm font-medium text-gray-500 mr-2">
+                          {prefix}
+                        </span>
+                      )}
+                      <Input
+                        type="text"
+                        id={id}
+                        value={
+                          resume?.header.contacts?.[
+                          key as keyof typeof resume.header.contacts
+                          ] || ""
+                        }
+                        onChange={(e) => {
+                          onChangeResume({
+                            ...resume,
+                            header: {
+                              ...resume.header,
+                              contacts: {
+                                ...resume.header.contacts,
+                                [key]: e.target.value,
+                              },
+                            },
+                          });
+                        }}
+                        placeholder={placeholder}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
