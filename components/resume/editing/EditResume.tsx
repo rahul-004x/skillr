@@ -1,6 +1,8 @@
 import { ResumeData } from "@/lib/server/redisActions";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { EducationField } from "./EducationField";
+import AddButton from "./AddButton";
 
 export const EditResume = ({
   resume,
@@ -203,6 +205,61 @@ export const EditResume = ({
             </div>
           </div>
         </div>
+      </div>
+      <div className="space-y-2">
+        <h2 className="text-xl font-bold">About</h2>
+        <textarea
+          className="w-full p-2 border rounded-md font-mono text-sm"
+          value={resume?.summary}
+          onChange={(e) => {
+            onChangeResume({
+              ...resume,
+              summary: e.target.value,
+            });
+          }}
+          rows={4}
+          placeholder="Enter you professional summary..."
+        />
+      </div>
+      <div className="space-y-4">
+        <h2 className="text-xl font-bold">Education</h2>
+        {resume?.education?.map((edu, index) => (
+          <div>
+            <EducationField
+              key={index}
+              edu={edu}
+              index={index}
+              onUpdate={(index, updatedEdu) => {
+                const newEducation = [...resume.education];
+                newEducation[index] = updatedEdu;
+                onChangeResume({
+                  ...resume,
+                  education: newEducation,
+                });
+              }}
+              onDelete={(index) => {
+                const newEducation = [...resume.education];
+                newEducation.splice(index, 1);
+                onChangeResume({
+                  ...resume,
+                  education: newEducation,
+                });
+              }}
+            />
+          </div>
+        ))}
+        <AddButton
+          label="Add Education"
+          onClick={() => {
+            onChangeResume({
+              ...resume,
+              education: [
+                ...resume.education,
+                { degree: "", school: "", start: "", end: "" },
+              ],
+            });
+          }}
+        />
       </div>
     </section>
   );
