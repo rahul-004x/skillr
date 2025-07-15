@@ -1,7 +1,8 @@
 import { getResume, getUserIdByUsername } from "@/lib/server/redisActions";
 import { clerkClient } from "@clerk/nextjs/server";
 import { unstable_cache } from "next/cache";
-export async function getUserDate(username: string) {
+
+export async function getUserData(username: string) {
   const user_id = await getUserIdByUsername(username);
   if (!user_id) {
     return { user_id: undefined, resume: undefined, clerkUser: undefined };

@@ -1,4 +1,5 @@
 import { FullResume } from "@/components/resume/fullResume";
+import { getUserData } from "./utils";
 
 const ProfilePage = async ({
   params,
@@ -6,9 +7,17 @@ const ProfilePage = async ({
   params: Promise<{ username: string }>;
 }) => {
   const { username } = await params;
+  const { user_id, resume, clerkUser } = await getUserData(username);
+
+  const profilePicture = clerkUser?.imageUrl;
   return (
     <div>
-      <FullResume username={username} />
+      {resume?.resumeData && (
+        <FullResume
+          resume={resume.resumeData}
+          profilePicture={profilePicture}
+        />
+      )}
     </div>
   );
 };
