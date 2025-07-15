@@ -65,9 +65,9 @@ export default function UploadPageClient() {
   };
 
   return (
-    <div className="flex flex-col items-center flex-1 px-4 py-12 gap-6 min-h-[80vh]">
-      <div className="w-full max-w-[438px] text-center font-mono mx-auto">
-        <h1 className="text-base text-center pb-6">
+    <div className="flex min-h-[80vh] flex-1 flex-col items-center gap-6 px-4 py-12">
+      <div className="mx-auto w-full max-w-[438px] text-center font-mono">
+        <h1 className="pb-6 text-center text-base">
           Upload the PDF of you linkedin or your resume and generate your
           portfolio website
         </h1>
@@ -76,7 +76,7 @@ export default function UploadPageClient() {
           {fileState.status != "empty" && (
             <button
               onClick={handleReset}
-              className="absolute top-2 right-2 p-1 hover:bg-gray-100 rounded-full z-10"
+              className="absolute top-2 right-2 z-10 rounded-full p-1 hover:bg-gray-100"
               disabled={isUpdating}
             >
               <X className="h-4 w-4 text-gray-500" />
@@ -98,14 +98,14 @@ export default function UploadPageClient() {
               )
             }
             title={
-              <span className="text-base font-bold text-center text-black/95">
+              <span className="text-center text-base font-bold text-black/95">
                 {fileState.status !== "empty"
                   ? fileState.file.name
                   : "Upload PDF"}
               </span>
             }
             description={
-              <span className="text-sm font-light text-center text-gray-600">
+              <span className="text-center text-sm font-light text-gray-600">
                 {fileState.status !== "empty"
                   ? `${(fileState.file.size / 1024 / 1024).toFixed(2)} MB`
                   : "Resume or LinkedIn"}
@@ -121,18 +121,18 @@ export default function UploadPageClient() {
             <DialogTrigger asChild>
               <Button
                 variant="ghost"
-                className="mt-3 hover:bg-white border border-transparent hover:border-gray-200 font-mono text-center cursor-help flex flex-row gap-1.5 justify-center mx-auto"
+                className="mx-auto mt-3 flex cursor-help flex-row justify-center gap-1.5 border border-transparent text-center font-mono hover:border-gray-200 hover:bg-white"
               >
-                <span className="ml-1 inline-block h-4 w-4 rounded-full border border-gray-300 text-center justify-center text-xs cursor-help">
+                <span className="ml-1 inline-block h-4 w-4 cursor-help justify-center rounded-full border border-gray-300 text-center text-xs">
                   i
                 </span>
-                <p className="text-xs text-center text-gray-600 whitespace-normal">
+                <p className="text-center text-xs whitespace-normal text-gray-600">
                   How to upload LinkedIn Profile
                 </p>
               </Button>
             </DialogTrigger>
-            <DialogContent className="w-full max-w-[652px] text-center font-mono !p-0 gap-0">
-              <DialogTitle className="font-mono text-base text-center text-design-gray px-7 py-4">
+            <DialogContent className="w-full max-w-[652px] gap-0 !p-0 text-center font-mono">
+              <DialogTitle className="text-design-gray px-7 py-4 text-center font-mono text-base">
                 Go to your profile → Click on “Resources” → Then “Save to PDF”
               </DialogTitle>
               <Image
@@ -146,16 +146,16 @@ export default function UploadPageClient() {
             </DialogContent>
           </Dialog>
         </div>
-        <div className="font-mono mt-4">
+        <div className="mt-4 font-mono">
           <div className="relative">
             <Button
-              className="px-4 py-3 h-auto bg-black/95 hover:bg-black/85"
+              className="h-auto bg-black/95 px-4 py-3 hover:bg-black/85"
               disabled={fileState.status === "empty"}
               onClick={() => router.push("/pdf")}
             >
               {isUpdating ? (
                 <>
-                  <CustomSpinner className="h-5 w-5 mr-2" />
+                  <CustomSpinner className="backgrond-white mr-2 h-5 w-5" />
                   Processing...
                 </>
               ) : (
