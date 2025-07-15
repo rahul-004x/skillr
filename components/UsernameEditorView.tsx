@@ -31,7 +31,11 @@ function UsernameEditorContent({
   onClose,
 }: UsernameEditorContentProps) {
   const [newUsername, setNewUsername] = useState<string>(initialUsername);
-  const { updateUsernameMutation, checkUsernameMutation, debouncedCheckUsername } = useUserActions();
+  const {
+    updateUsernameMutation,
+    checkUsernameMutation,
+    debouncedCheckUsername,
+  } = useUserActions();
 
   const isInitialUsername = newUsername === initialUsername;
 
@@ -73,13 +77,13 @@ function UsernameEditorContent({
       {/* Current Username (Disabled) */}
       <div className="flex flex-col gap-2">
         <Label htmlFor="current-username">Current Username</Label>
-        <div className="w-full overflow-hidden rounded bg-neutral-100 border-[0.5px] border-neutral-300">
+        <div className="w-full overflow-hidden rounded border-[0.5px] border-neutral-300 bg-neutral-100">
           <input
             id="current-username"
             type="text"
             value={initialUsername}
             disabled
-            className="w-full p-3 text-sm text-neutral-500 border-none outline-none focus:ring-0 bg-transparent cursor-not-allowed"
+            className="w-full cursor-not-allowed border-none bg-transparent p-3 text-sm text-neutral-500 outline-none focus:ring-0"
           />
         </div>
       </div>
@@ -87,7 +91,7 @@ function UsernameEditorContent({
       {/* New Username Input */}
       <div className="flex flex-col gap-2">
         <Label htmlFor="new-username">New Username</Label>
-        <div className="w-full overflow-hidden rounded bg-white border-[0.5px] border-neutral-300">
+        <div className="w-full overflow-hidden rounded border-[0.5px] border-neutral-300 bg-white">
           <div className="flex items-center">
             <input
               id="new-username"
@@ -96,7 +100,7 @@ function UsernameEditorContent({
               onChange={handleUsernameChange}
               maxLength={MAX_USERNAME_LENGTH}
               placeholder="Enter new username"
-              className="w-full p-3 text-sm text-[#5d5d5d] border-none outline-none focus:ring-0 bg-transparent"
+              className="w-full border-none bg-transparent p-3 text-sm text-[#5d5d5d] outline-none focus:ring-0"
               onKeyDown={(e) => {
                 if (
                   e.key === "Enter" &&
@@ -111,7 +115,7 @@ function UsernameEditorContent({
               {isInitialUsername ? (
                 <></>
               ) : checkUsernameMutation.isPending ? (
-                <div className="w-4 h-4 rounded-full border-2 border-gray-300 border-t-primary animate-spin" />
+                <div className="border-t-primary h-4 w-4 animate-spin rounded-full border-2 border-gray-300" />
               ) : isValid ? (
                 <svg
                   width="24"
@@ -129,7 +133,7 @@ function UsernameEditorContent({
                   />
                 </svg>
               ) : (
-                <X className="w-5 h-5 text-[#950000]" />
+                <X className="h-5 w-5 text-[#950000]" />
               )}
             </div>
           </div>
@@ -155,7 +159,7 @@ const UsernameEditorView = ({
   initialUsername,
   isOpen,
   onClose,
-  prefix = "reflect.me/",
+  prefix = "skillr/",
 }: {
   initialUsername: string;
   isOpen: boolean;

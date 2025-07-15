@@ -28,7 +28,7 @@ const SocailButton = ({ href, icon: Icon, label }: SocailButtonProps) => {
         href={
           href.startsWith("mailto:") || href.startsWith("tel:")
             ? href
-            : `${href}${href.includes("?") ? "&" : "?"}ref=reflect.me`
+            : `${href}${href.includes("?") ? "&" : "?"}ref=skillr`
         }
         aria-label={label}
         target="_blank"
@@ -93,20 +93,20 @@ export function Header({
   ]);
 
   return (
-    <header className="flex items-start md:items-center justify-between gap-4">
-      <div className="flex-1 space-y-1.5 ">
+    <header className="flex items-start justify-between gap-4 md:items-center">
+      <div className="flex-1 space-y-1.5">
         <h1 className="text-2xl font-bold" id="resume-name">
           {header.name}
         </h1>
         <p
-          className="max-w-md text-pretty font-mono text-sm print:text-[12px] text-[#6B7280] inline-block align-middle"
+          className="inline-block max-w-md align-middle font-mono text-sm text-pretty text-[#6B7280] print:text-[12px]"
           aria-labelledby="resume-name"
         >
           {header.shortAbout}
         </p>
-        <p className="max-w-md text-sm text-pretty text-foreground font-mono items-center">
+        <p className="text-foreground max-w-md items-center font-mono text-sm text-pretty">
           <a
-            className="inline-flex gap-1.5 align-baseline leading-none hover:underline text-[#9CA0A8] "
+            className="inline-flex gap-1.5 align-baseline leading-none text-[#9CA0A8] hover:underline"
             href={`https://www.googl.com/${encodeURIComponent(header.location || "")}`}
             target="_blank"
             rel="nooopener noreferrer"
@@ -115,7 +115,7 @@ export function Header({
             {header.location}
           </a>
         </p>
-        <div className="flex gap-x-1 pt-1  font-mono text-sm text-[#6B7280] print:hidden">
+        <div className="flex gap-x-1 pt-1 font-mono text-sm text-[#6B7280] print:hidden">
           {sociaLinks.website && (
             <SocailButton
               href={sociaLinks.website}
@@ -166,7 +166,7 @@ export function Header({
           {sociaLinks.website && (
             <>
               <a
-                className="underline hover:text-foreground/70"
+                className="hover:text-foreground/70 underline"
                 href={sociaLinks.website}
               >
                 {new URL(sociaLinks.website).hostname}
@@ -177,7 +177,7 @@ export function Header({
           {header.contacts.email && (
             <>
               <a
-                className="underline hover:text-foreground/70"
+                className="hover:text-foreground/70 underline"
                 href={`mailto: ${header.contacts.email}`}
               >
                 {header.contacts.email}
@@ -188,7 +188,7 @@ export function Header({
           {header.contacts.phone && (
             <>
               <a
-                className="underline hover:text-foreground/70"
+                className="hover:text-foreground/70 underline"
                 href={`tel: ${header.contacts.phone}`}
               >
                 {header.contacts.phone}

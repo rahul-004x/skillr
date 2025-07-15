@@ -11,7 +11,7 @@ export type PublishStatuses = "draft" | "live";
 
 const PreviewActionbar = ({
   initialUsername = "",
-  prefix = "reflect.me",
+  prefix = "skillr",
   status,
   onStatusChange,
   isChangingStatus,
@@ -34,14 +34,14 @@ const PreviewActionbar = ({
 
   return (
     <>
-      <div className="w-full rounded-lg bg-[#fcfcfc] border-[0.5px] border-neutral-300 flex items-center justify-between py-3 px-5  sm:px-4 sm:py-2.5  flex-col sm:flex-row gap-4">
-        <div className="flex flex-col sm:flex-row items-center gap-4 w-full">
-          <div className="flex items-center gap-1 mr-1">
+      <div className="flex w-full flex-col items-center justify-between gap-4 rounded-lg border-[0.5px] border-neutral-300 bg-[#fcfcfc] px-5 py-3 sm:flex-row sm:px-4 sm:py-2.5">
+        <div className="flex w-full flex-col items-center gap-4 sm:flex-row">
+          <div className="mr-1 flex items-center gap-1">
             <Image
               src="/link-icon.png"
               alt="link-icon"
               className={cn(
-                "w-4 h-4 text-black/95 ",
+                "h-4 w-4 text-black/95",
                 status === "live" && "cursor-pointer",
               )}
               height={16}
@@ -56,18 +56,18 @@ const PreviewActionbar = ({
             <p className="text-sm text-black/95">{prefix}</p>
           </div>
 
-          <div className="overflow-hidden rounded bg-white border-[0.5px] border-neutral-300 flex flex-row md:w-80 w-full">
-            <span className="flex-1 p-3 text-sm text-[#5d5d5d] border-none outline-none focus:ring-0 bg-transparent w-fit truncate">
+          <div className="flex w-full flex-row overflow-hidden rounded border-[0.5px] border-neutral-300 bg-white md:w-80">
+            <span className="w-fit flex-1 truncate border-none bg-transparent p-3 text-sm text-[#5d5d5d] outline-none focus:ring-0">
               {initialUsername}
             </span>
 
             <Button
               variant="ghost"
               size="icon"
-              className="size-[44px] flex items-center justify-center border-l-[0.5px]"
+              className="flex size-[44px] items-center justify-center border-l-[0.5px]"
               onClick={() => setIsEditorOpen(true)}
             >
-              <Pencil className="w-4 h-4" />
+              <Pencil className="h-4 w-4" />
             </Button>
           </div>
         </div>
@@ -80,17 +80,17 @@ const PreviewActionbar = ({
                   onClick={() =>
                     window.open(getPersonalUrl(initialUsername), "_blank")
                   }
-                  className="flex items-center gap-1 hover:opacity-80 transition-opacity"
+                  className="flex items-center gap-1 transition-opacity hover:opacity-80"
                 >
                   <div
-                    className="size-1.5 rounded-full relative"
+                    className="relative size-1.5 rounded-full"
                     style={{
                       backgroundColor: "#009505",
                     }}
                   >
-                    <div className="absolute inset-0 rounded-full bg-[#009505] animate-ping opacity-50" />
+                    <div className="absolute inset-0 animate-ping rounded-full bg-[#009505] opacity-50" />
                   </div>
-                  <p className="text-[10px] font-bold uppercase text-[#009505]">
+                  <p className="text-[10px] font-bold text-[#009505] uppercase">
                     {status}
                   </p>
                 </button>
@@ -102,7 +102,7 @@ const PreviewActionbar = ({
                       backgroundColor: "#B98900",
                     }}
                   />
-                  <p className="text-[10px] font-bold uppercase text-[#B98900]">
+                  <p className="text-[10px] font-bold text-[#B98900] uppercase">
                     {status}
                   </p>
                 </>
@@ -114,8 +114,8 @@ const PreviewActionbar = ({
               variant={"default"}
               disabled={isChangingStatus}
               onClick={handleStatusChange}
-              className={`flex items-center min-w-[100px] min-h-8 gap-1.5 px-3 py-1.5 h-auto ${status === "draft"
-                  ? "bg-black/95 hover:bg-[#333333] text-[#fcfcfc]"
+              className={`flex h-auto min-h-8 min-w-[100px] items-center gap-1.5 px-3 py-1.5 ${status === "draft"
+                  ? "bg-black/95 text-[#fcfcfc] hover:bg-[#333333]"
                   : "bg-white/95 text-black/95 hover:bg-gray-100"
                 }`}
             >
@@ -130,7 +130,7 @@ const PreviewActionbar = ({
               )}
             </Button>
             {status === "live" && (
-              <Button className="flex items-center min-w-[100px] min-h-8 gap-1.5 px-3 py-1.5 h-auto">
+              <Button className="flex h-auto min-h-8 min-w-[100px] items-center gap-1.5 px-3 py-1.5">
                 <a
                   href={`${getPersonalUrl(initialUsername)}`}
                   target="_blank"

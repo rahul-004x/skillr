@@ -227,6 +227,8 @@ export const EditResume = ({
           </div>
         </div>
       </div>
+
+      {/* Education Section */}
       <div className="space-y-2">
         <h2 className="text-xl font-bold">About</h2>
         <textarea
@@ -282,6 +284,8 @@ export const EditResume = ({
           }}
         />
       </div>
+
+      {/* Skill section */}
       <div className="space-y-4">
         <h2 className="text-xl font-bold">Skills</h2>
         <div className="flex flex-wrap gap-2">
