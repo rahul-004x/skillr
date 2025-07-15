@@ -4,21 +4,39 @@ import { useEffect, useState } from "react";
 import { ResumeData } from "@/lib/server/redisActions";
 import LoadingFallback from "@/components/LoadingFallback";
 import PreviewActionbar from "@/components/PreviewActionBar";
+import { Button } from "@/components/ui/button";
 import { useUserActions } from "@/hooks/useUserAction";
 import { getPersonalUrl } from "@/lib/utils";
 import { toast } from "sonner";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { Eye, Edit } from "lucide-react";
+import { Eye, Edit, X, Save } from "lucide-react";
 import { FullResume } from "@/components/resume/fullResume";
 import { useUser } from "@clerk/nextjs";
 import { EditResume } from "@/components/resume/editing/EditResume";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 export default function PreviewClient({ messageTip }: { messageTip?: string }) {
   const [showModalSiteLive, setModalSiteLive] = useState(false);
   const [localResumeData, setLocalResumeData] = useState<ResumeData>();
   const [isEditMode, setIsEditMode] = useState(false);
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+  const [showDiscardConfirmation, setShowDiscardConfirmation] = useState(false);
 
-  const { resumeQuery, toggleStatusMutation, usernameQuery } = useUserActions();
+  const {
+    resumeQuery,
+    toggleStatusMutation,
+    usernameQuery,
+    saveResumeDataMutation,
+  } = useUserActions();
 
   const { user } = useUser();
 
@@ -37,15 +55,55 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
     return <LoadingFallback message="Loading..." />;
   }
 
+  const handleResumeChanges = (newResume: ResumeData) => {
+    setLocalResumeData(newResume);
+    setHasUnsavedChanges(true);
+  };
+
+  const handleDiscardChange = () => {
+    setShowDiscardConfirmation(true);
+  };
+
+  const handleSaveChanges = async () => {
+    if (!localResumeData) {
+      toast.error("No data to be saved");
+      return;
+    }
+
+    try {
+      await saveResumeDataMutation.mutateAsync(localResumeData);
+      toast.success("Changes saved successfully");
+      setHasUnsavedChanges(true);
+      setIsEditMode(false);
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(`Failed to save changes, ${error.message}`);
+      } else {
+        toast.error("Failed to save changes");
+      }
+    }
+  };
+
+  const confirmDiscardChanges = () => {
+    //Reset to original data
+    if (resumeQuery.data?.resume?.resumeData) {
+      setLocalResumeData(resumeQuery.data?.resume?.resumeData);
+    }
+    setHasUnsavedChanges(false);
+    setIsEditMode(false);
+    setShowDiscardConfirmation(false);
+    toast.info("Changes discarded");
+  };
+
   const CustomLiveToast = () => (
-    <div className="w-fit min-w-[360px] h-[44px] items-center justify-between relative rounded-md bg-[#eaffea] border border-[#009505] shadow-md flex flex-row gap-2 px-2">
+    <div className="relative flex h-[44px] w-fit min-w-[360px] flex-row items-center justify-between gap-2 rounded-md border border-[#009505] bg-[#eaffea] px-2 shadow-md">
       <svg
         width="24"
         height="24"
         viewBox="0 0 24 24"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="w-6 h-6"
+        className="h-6 w-6"
         preserveAspectRatio="none"
       >
         <rect width="24" height="24" rx="4" fill="#EAFFEA"></rect>
@@ -57,7 +115,7 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
           strokeLinejoin="round"
         ></path>
       </svg>
-      <p className="text-sm text-left text-[#003c02] mr-2">
+      <p className="mr-2 text-left text-sm text-[#003c02]">
         <span className="hidden md:block"> Your website has been updated!</span>
         <span className="md:hidden"> Website updated!</span>
       </p>
@@ -65,7 +123,7 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
         href={getPersonalUrl(usernameQuery.data.username)}
         target="_blank"
         rel="noopener noreferrer"
-        className="flex justify-center items-center overflow-hidden gap-1 px-3 py-1 rounded bg-[#009505] h-[26px]"
+        className="flex h-[26px] items-center justify-center gap-1 overflow-hidden rounded bg-[#009505] px-3 py-1"
       >
         <svg
           width="10"
@@ -73,7 +131,7 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
           viewBox="0 0 10 10"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          className="flex-grow-0 flex-shrink-0 w-2.5 h-2.5 relative"
+          className="relative h-2.5 w-2.5 flex-shrink-0 flex-grow-0"
           preserveAspectRatio="xMidYMid meet"
         >
           <path
@@ -81,7 +139,7 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
             fill="white"
           ></path>
         </svg>
-        <p className="flex-grow-0 flex-shrink-0 text-sm font-medium text-left text-white">
+        <p className="flex-shrink-0 flex-grow-0 text-left text-sm font-medium text-white">
           View
         </p>
       </a>
@@ -89,13 +147,13 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
   );
 
   return (
-    <div className="w-full min-h-screen flex flex-col gap-4 pb-8">
+    <div className="flex min-h-screen w-full flex-col gap-4 pb-8">
       {messageTip && (
-        <div className="max-w-3xl mx-auto w-full md:px-0 px-4">
-          <div className="bg-amber-50 border border-amber-200 text-amber-800 rounded-md p-4 flex items-start">
+        <div className="mx-auto w-full max-w-3xl px-4 md:px-0">
+          <div className="flex items-start rounded-md border border-amber-200 bg-amber-50 p-4 text-amber-800">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5 mr-2 mt-0.5"
+              className="mt-0.5 mr-2 h-5 w-5"
               viewBox="0 0 20 20"
               fill="currentColor"
             >
@@ -109,7 +167,7 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
           </div>
         </div>
       )}
-      <div className="max-w-3xl mx-auto w-full md:px-0 px-4">
+      <div className="mx-auto w-full max-w-3xl px-4 md:px-0">
         <PreviewActionbar
           initialUsername={usernameQuery.data.username}
           status={resumeQuery.data?.resume?.status}
@@ -131,7 +189,7 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
           isChangingStatus={toggleStatusMutation.isPending}
         />
       </div>
-      <div className="max-w-3xl mx-auto w-full flex flex-col md:flex-row justify-between items-center px-4 md:px-0 gap-4">
+      <div className="mx-auto flex w-full max-w-3xl flex-col items-center justify-between gap-4 px-4 md:flex-row md:px-0">
         <ToggleGroup
           type="single"
           value={isEditMode ? "edit" : "preview"}
@@ -139,20 +197,46 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
           aria-label="View mode"
         >
           <ToggleGroupItem value="preview" aria-label="Preview mode">
-            <Eye className="h-4 w-4 mr-1" />
+            <Eye className="mr-1 h-4 w-4" />
             <span>Preview</span>
           </ToggleGroupItem>
           <ToggleGroupItem value="edit" aria-label="Edit mode">
-            <Edit className="h-4 w-4 mr-1" />
+            <Edit className="mr-1 h-4 w-4" />
             <span>Edit</span>
           </ToggleGroupItem>
         </ToggleGroup>
+        {isEditMode && (
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              className="flex items-center gap-1"
+              onClick={handleDiscardChange}
+              disabled={!hasUnsavedChanges || saveResumeDataMutation.isPending}
+            >
+              <X className="size-4" />
+              <span>Discard</span>
+            </Button>
+            <Button
+              disabled={!hasUnsavedChanges || saveResumeDataMutation.isPending}
+              onClick={handleSaveChanges}
+            >
+              {saveResumeDataMutation.isPending ? (
+                <span className="size-4 animate-spin">⌛</span>
+              ) : (
+                <Save className="size-4" />
+              )}
+              <span>
+                {saveResumeDataMutation.isPending ? "Saving..." : "Save"}
+              </span>
+            </Button>
+          </div>
+        )}
       </div>
-      <div className="max-w-3xl mx-auto w-full md:rounded-lg border-[0.5px] flex items-center justify-between px-4 py-1">
+      <div className="mx-auto flex w-full max-w-3xl items-center justify-between border-[0.5px] px-4 py-1 md:rounded-lg">
         {isEditMode ? (
           <EditResume
             resume={localResumeData}
-            onChangeResume={(newResume) => setLocalResumeData(newResume)}
+            onChangeResume={handleResumeChanges}
           />
         ) : (
           <FullResume
@@ -161,6 +245,25 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
           />
         )}
       </div>
+      <AlertDialog
+        open={showDiscardConfirmation}
+        onOpenChange={setShowDiscardConfirmation}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Discard changes</AlertDialogTitle>
+          </AlertDialogHeader>
+          <AlertDialogDescription>
+            Are you sure to discard your changes? This action cannot be undone.
+          </AlertDialogDescription>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={confirmDiscardChanges}>
+              Discard
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

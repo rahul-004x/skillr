@@ -20,7 +20,7 @@ export const EditResume = ({
 
   const handleAddSkill = (skillToAdd: string) => {
     if (resume.header.skills.includes(skillToAdd)) {
-      toast.warning("This skill is already addes");
+      toast.warning("This skill is already added");
     } else {
       onChangeResume({
         ...resume,
@@ -29,6 +29,7 @@ export const EditResume = ({
           skills: [...resume.header.skills, skillToAdd],
         },
       });
+      toast.success("Skill added successfully");
     }
   };
 
@@ -247,7 +248,7 @@ export const EditResume = ({
       <div className="space-y-4">
         <h2 className="text-xl font-bold">Education</h2>
         {resume?.education?.map((edu, index) => (
-          <div>
+          <div key={index}>
             <EducationField
               key={index}
               edu={edu}

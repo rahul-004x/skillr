@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { JetBrains_Mono } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ReactQueryClientProvider } from "@/components/ReactQueryClientProvider";
+import { Toaster } from "sonner";
 import "./globals.css";
 
 const mono = JetBrains_Mono({
@@ -21,9 +22,10 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={`${mono.className} min-h-screen flex flex-col`}>
+        <body className={`${mono.className} flex min-h-screen flex-col`}>
           <ReactQueryClientProvider>
-            <main className="flex-1 flex flex-col">{children}</main>
+            <Toaster position="bottom-center" richColors />
+            <main className="flex flex-1 flex-col">{children}</main>
           </ReactQueryClientProvider>
         </body>
       </html>
