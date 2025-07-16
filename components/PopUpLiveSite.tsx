@@ -4,10 +4,12 @@ import {
   DialogTitle,
   DialogContent,
 } from "@/components/ui/dialog";
+import { Drawer, DrawerTitle, DrawerContent } from "@/components/ui/drawer";
 import { Copy, SquareArrowOutUpRight, X } from "lucide-react";
 import { useMemo } from "react";
 import Image from "next/image";
 import { toast } from "sonner";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const PopUpLiveSite = ({
   isOpen,
@@ -18,6 +20,8 @@ const PopUpLiveSite = ({
   onClose: () => void;
   websiteUrl: string;
 }) => {
+  const isMobile = useIsMobile();
+
   const mainContent = useMemo(() => {
     return (
       <div className="rounded-lg bg-white shadow-lg">
@@ -40,7 +44,7 @@ const PopUpLiveSite = ({
                 onClick={() => {
                   navigator.clipboard.writeText(websiteUrl);
                   toast.success("Copy link to you website");
-                  onClose()
+                  onClose();
                 }}
                 title="Copy Url"
                 className="flex flex-row items-center justify-center gap-2 rounded-md bg-black/95 p-2 text-white hover:bg-gray-800"
@@ -64,20 +68,39 @@ const PopUpLiveSite = ({
       </div>
     );
   }, [websiteUrl]);
+
+  if (!isMobile) {
+    return (
+      <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
+        <DialogHeader>
+          <DialogTitle>
+            <span className="sr-only">Site live</span>
+          </DialogTitle>
+        </DialogHeader>
+        <DialogContent className="sm:maw-w-md h-[280px] w-[500px] gap-0 border-none p-0">
+          <button className="absolute top-4 right-4 text-gray-400 hover:text-gray-500">
+            <X className="size-4" />
+          </button>
+          {mainContent}
+        </DialogContent>
+      </Dialog>
+    );
+  }
   return (
-    <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogHeader>
-        <DialogTitle>
-          <span className="sr-only">Site live</span>
-        </DialogTitle>
-      </DialogHeader>
-      <DialogContent className="sm:maw-w-md h-[280px] w-[500px] gap-0 border-none p-0">
-        <button className="absolute top-4 right-4 text-gray-400 hover:text-gray-500">
+    <Drawer open={isOpen} onOpenChange={(open) => !open && onClose()}>
+      <DrawerTitle>
+        <span className="sr-only">Site live</span>
+      </DrawerTitle>
+      <DrawerContent className="outline-none">
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 text-gray-400 hover:text-gray-500"
+        >
           <X className="size-4" />
         </button>
         {mainContent}
-      </DialogContent>
-    </Dialog>
+      </DrawerContent>
+    </Drawer>
   );
 };
 
