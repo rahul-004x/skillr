@@ -23,9 +23,10 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import PopUpLiveSite from "@/components/PopUpLiveSite";
 
 export default function PreviewClient({ messageTip }: { messageTip?: string }) {
-  const [showModalSiteLive, setModalSiteLive] = useState(false);
+  const [showModalSiteLive, setShowModalSiteLive] = useState(false);
   const [localResumeData, setLocalResumeData] = useState<ResumeData>();
   const [isEditMode, setIsEditMode] = useState(false);
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
@@ -173,10 +174,10 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
           status={resumeQuery.data?.resume?.status}
           onStatusChange={async (newStatus) => {
             await toggleStatusMutation.mutateAsync(newStatus);
-            const isFirstTime = !localStorage.getItem("publishedSite");
+            // const isFirstTime = !localStorage.getItem("publishedSite");
 
-            if (isFirstTime && newStatus === "live") {
-              setModalSiteLive(true);
+            if (newStatus === "live") {
+              setShowModalSiteLive(true);
               localStorage.setItem("publishedSite", new Date().toDateString());
             } else {
               if (newStatus === "draft") {
@@ -264,6 +265,13 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+      <PopUpLiveSite
+        isOpen={showModalSiteLive}
+        websiteUrl={getPersonalUrl(usernameQuery.data.username)}
+        onClose={() => {
+          setShowModalSiteLive(false)
+        }}
+      />
     </div>
   );
 }
