@@ -11,7 +11,7 @@ export type PublishStatuses = "draft" | "live";
 
 const PreviewActionbar = ({
   initialUsername = "",
-  prefix = "skillr",
+  prefix = "skillr/",
   status,
   onStatusChange,
   isChangingStatus,
