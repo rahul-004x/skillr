@@ -2,6 +2,7 @@ import { FullResume } from "@/components/resume/fullResume";
 import { getUserData } from "./utils";
 import { redirect } from "next/navigation";
 import { WorkExperience } from "@/components/resume/WorkExperience";
+import { hashKey } from "@tanstack/react-query";
 
 const ProfilePage = async ({
   params,
@@ -22,13 +23,27 @@ const ProfilePage = async ({
     "@type": "Person",
     name: resume.resumeData.header.name,
     image: profilePicture,
-    jobTitle: resume.resumeData.header.shortAbout,
-    description: resume.resumeData.summary,
-    WorkExperience: resume.resumeData.workExperience,
+    hasOccupation: {
+      "@type": "Occupation",
+      name: resume.resumeData.header.shortAbout,
+      description: resume.resumeData.summary,
+    },
+    hasCredential: resume.resumeData.workExperience.map((work) => ({
+      "@type": "organizationRole",
+      name: work.title,
+      startDate: work.start,
+      endDate: work.end,
+      memberOf: {
+        "@type": "Organization",
+        name: work.company,
+        location: work.location,
+      },
+      description: work.description,
+    })),
     email:
       resume.resumeData.header.contacts.email &&
       `mailto: ${resume.resumeData.header.contacts.email}`,
-    skills: resume.resumeData.header.skills,
+    knowsAbout: resume.resumeData.header.skills,
   };
 
   return (
