@@ -1,8 +1,7 @@
 import { FullResume } from "@/components/resume/fullResume";
 import { getUserData } from "./utils";
 import { redirect } from "next/navigation";
-import { WorkExperience } from "@/components/resume/WorkExperience";
-import { hashKey } from "@tanstack/react-query";
+import Link from "next/link";
 
 const ProfilePage = async ({
   params,
@@ -52,13 +51,22 @@ const ProfilePage = async ({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLD) }}
       />
-      <div>
-        {resume?.resumeData && (
-          <FullResume
-            resume={resume.resumeData}
-            profilePicture={profilePicture}
-          />
-        )}
+      {resume?.resumeData && (
+        <FullResume
+          resume={resume.resumeData}
+          profilePicture={profilePicture}
+        />
+      )}
+      <div className="mt-8 mb-4 text-center">
+        <Link
+          href={`/ref?${username}`}
+          className="font-mono text-sm text-gray-700"
+        >
+          Made by{" "}
+          <span className="text-black/95 underline underline-offset-2">
+            Skillr
+          </span>
+        </Link>
       </div>
     </>
   );
