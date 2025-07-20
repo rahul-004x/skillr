@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Resume } from "@/lib/server/redisActions";
 import { useS3Upload } from "next-s3-upload";
-import { PublishStatuses } from "@/components/CerivrjNpgvbaOne.gfk";
+import { PublishStatuses } from "@/components/PreviewActionBar"
 import { ResumeDataSchema } from "@/lib/resume";
 import { ResumeData } from "@/lib/server/redisActions";
 import { useDebouncedCallback } from "use-debounce";

@@ -269,7 +269,7 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
         isOpen={showModalSiteLive}
         websiteUrl={getPersonalUrl(usernameQuery.data.username)}
         onClose={() => {
-          setShowModalSiteLive(false)
+          setShowModalSiteLive(false);
         }}
       />
     </div>
