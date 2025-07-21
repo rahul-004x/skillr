@@ -6,7 +6,7 @@ import { Button } from "./ui/button";
 
 export const TopMenu = () => {
   return (
-    <header className="w-full py-4 md:px-0 px-6 flex justify-between items-center max-w-4xl mx-auto h-[67px]">
+    <header className="mx-auto flex h-[67px] w-full max-w-4xl items-center justify-between px-6 py-4 md:px-0">
       <Link href="/" className="flex items-center gap-2">
         <Image
           src="/logo.svg"
@@ -22,9 +22,13 @@ export const TopMenu = () => {
         </SignedIn>
         <SignedOut>
           <div className="flex flex-row gap-3 font-mono">
-            <a href="www.github.com/rahul004x" target="black" rel="noreferrer">
+            <a
+              href="https://github.com/rahul-004x/reflect.me"
+              target="black"
+              rel="noreferrer"
+            >
               <Button
-                className="flex flex-row gap-1.5 py-5 px-4 border-gray-300 text-gray text-sm font-medium border-r-1"
+                className="text-gray flex cursor-pointer flex-row gap-1.5 border-r-1 border-gray-300 px-4 py-5 text-sm font-medium"
                 variant="outline"
               >
                 <Image
@@ -39,7 +43,7 @@ export const TopMenu = () => {
             <Link href="/upload">
               <Button
                 variant="default"
-                className="text-sm font-medium py-5 px-4 bg-black/95 hover:bg-black/85"
+                className="cursor-pointer bg-black/95 px-4 py-5 text-sm font-medium hover:bg-black/85"
               >
                 Sign up
               </Button>

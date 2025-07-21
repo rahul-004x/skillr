@@ -3,14 +3,14 @@ const Footer = () => {
     <footer className="mt-auto w-full border-t border-t-gray-200 px-6 py-4">
       <div className="mx-auto flex w-full max-w-4xl flex-col-reverse items-center justify-between gap-2 md:flex-row">
         <div className="font-mono text-sm font-bold text-gray-500">
-          Made by{" "}
+          copyright © 2025 - ♾️ by{' '}
           <a
             href="https://rahulyadav-theta.vercel.app/"
             target="_blank"
             className="text-sm font-bold text-black/95 underline underline-offset-2"
           >
             Rahul
-          </a>
+          </a> — all wrongs reserved
         </div>
         <div className="flex gap-2">
           <a

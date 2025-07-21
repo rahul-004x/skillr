@@ -10,18 +10,18 @@ export default function Home() {
   return (
     <>
       <TopMenu />
-      <section className="flex-1 flex flex-col">
-        <div className="flex flex-col min-h-[80vh]">
+      <section className="flex flex-1 flex-col">
+        <div className="flex min-h-[80vh] flex-col">
           {/* Main content */}
-          <div className="flex-1 flex flex-col md:flex-row max-w-4xl mx-auto items-center px-5 md:px-2 py-8 md:pt-0">
+          <div className="mx-auto flex max-w-4xl flex-1 flex-col items-center px-5 py-8 md:flex-row md:px-2 md:pt-0">
             {/* Left side - Call to action */}
-            <div className="w-full md:w-1/2 max-w-[378px] flex flex-col justify-center items-center md:items-start ">
+            <div className="flex w-full max-w-[378px] flex-col items-center justify-center md:w-1/2 md:items-start">
               <div className="max-w-md text-center md:text-left">
-                <div className="inline-block font-mono gap-2.5 px-2.5 py-1.5 rounded bg-gray-100 text-sm mb-5 text-gray">
+                <div className="text-gray mb-5 inline-block gap-2.5 rounded bg-gray-100 px-2.5 py-1.5 font-mono text-sm">
                   100% free & open source
                 </div>
 
-                <h1 className="text-[32px] font-bold mb-4 flex items-center justify-center md:justify-start gap-4 flex-wrap text-black-85 font-mono leading-4">
+                <h1 className="text-black-85 mb-4 flex flex-wrap items-center justify-center gap-4 font-mono text-[32px] leading-4 font-bold md:justify-start">
                   <span>LinkedIn</span>
                   <Image
                     src="/right-arrow.png"
@@ -44,19 +44,19 @@ export default function Home() {
                   />
                 </h1>
 
-                <p className="text-base text-gray-600 mb-[30px] font-mono text-center md:text-left">
+                <p className="mb-[30px] text-center font-mono text-base text-gray-600 md:text-left">
                   Turn your resume/LinkedIn
                   <br /> into a professional website.
                 </p>
 
-                <div className="relative flex flex-col items-center font-mono w-full md:w-fit">
+                <div className="relative flex w-full flex-col items-center font-mono md:w-fit">
                   <Link href="/upload">
-                    <Button className="relative group flex items-center bg-black/95 hover:bg-black/85 text-white px-6 py-3 h-auto text-base overflow-hidden">
-                      <div className="h-[120px] w-10 bg-gradient-to-r from-white/10 via-white/50 to-white/10 absolute blur-sm -rotate-45 -left-16 group-hover:left-[150%] duration-500 delay-200" />
+                    <Button className="group relative flex h-auto cursor-pointer items-center overflow-hidden bg-black/95 px-6 py-3 text-base text-white hover:bg-black/85">
+                      <div className="absolute -left-16 h-[120px] w-10 -rotate-45 bg-gradient-to-r from-white/10 via-white/50 to-white/10 blur-sm delay-200 duration-500 group-hover:left-[150%]" />
                       <Image
                         src="/sparkle.png"
                         alt="Sparkle Icon"
-                        className="h-5 w-5 mr-2 relative"
+                        className="relative mr-2 h-5 w-5"
                         width={5}
                         height={5}
                       />
@@ -65,7 +65,7 @@ export default function Home() {
                     </Button>
                   </Link>
 
-                  <p className="text-sm text-gray-500 mt-4 text-center">
+                  <p className="mt-4 text-center text-sm text-gray-500">
                     Takes 1 minute!
                   </p>
                 </div>
@@ -73,12 +73,12 @@ export default function Home() {
             </div>
 
             {/* Right side - Preview */}
-            <div className="w-full md:w-1/2 flex justify-center items-center flex-1 relative max-h-[700px] min-w-[50%] lg:min-w-[500px]">
-              <div className="absolute inset-0 -bottom-4 rounded-3xl bg-black/5 blur-xl h-full"></div>
+            <div className="relative flex max-h-[700px] w-full min-w-[50%] flex-1 items-center justify-center md:w-1/2 lg:min-w-[500px]">
+              <div className="absolute inset-0 -bottom-4 h-full rounded-3xl bg-black/5 blur-xl"></div>
               <BlurFade delay={0.25} inView>
                 <Image
                   src="/cv-home.png"
-                  className="relative w-full max-w-[500px] h-full object-cover overflow-hidden"
+                  className="relative h-full w-full max-w-[500px] overflow-hidden object-cover"
                   alt="CV Website Preview"
                   width={1000}
                   height={1000}
@@ -92,4 +92,3 @@ export default function Home() {
     </>
   );
 }
-
