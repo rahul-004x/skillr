@@ -1,5 +1,3 @@
-import { GitHubIcon, LinkedInIcon } from "./icons";
-
 const Footer = () => {
   return (
     <footer className="mt-auto w-full border-t border-t-gray-200 px-6 py-4">
