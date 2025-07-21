@@ -4,12 +4,12 @@ import { BlurFade } from "@/components/ui/BlurFade";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
+import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
     <>
       <TopMenu />
-
       <section className="flex-1 flex flex-col">
         <div className="flex flex-col min-h-[80vh]">
           {/* Main content */}
@@ -88,6 +88,8 @@ export default function Home() {
           </div>
         </div>
       </section>
+      <Footer />
     </>
   );
 }
+
