@@ -1,7 +1,7 @@
 const Footer = () => {
   return (
     <footer className="mt-auto w-full border-t border-t-gray-200 px-6 py-4">
-      <div className="mx-auto flex w-full max-w-4xl items-center justify-between">
+      <div className="mx-auto flex w-full max-w-4xl flex-col-reverse items-center justify-between gap-2 md:flex-row">
         <div className="font-mono text-sm font-bold text-gray-500">
           Made by{" "}
           <a
@@ -12,17 +12,22 @@ const Footer = () => {
             Rahul
           </a>
         </div>
-        <div className="flex gap-4">
+        <div className="flex gap-2">
           <a
             href="https://github.com/rahul-004x"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex size-6 items-center justify-center rounded-md border border-gray-500 hover:border-gray-400"
+            className="flex size-6 items-center justify-center rounded-sm border border-gray-500 hover:border-gray-400"
           >
             <img src="/footer/github.svg" className="size-4" />
             <span className="sr-only">GithHub</span>
           </a>
-          <a className="flex size-6 items-center justify-center rounded-md border border-gray-500 hover:border-gray-400">
+          <a
+            href="https://www.linkedin.com/in/rahul-yadav-004x/"
+            target="_blank"
+            rel="noopener nore"
+            className="flex size-6 items-center justify-center rounded-sm border border-gray-500 hover:border-gray-400"
+          >
             <img src="/footer/x.svg" className="size-4" />
             <span className="sr-only">LinkedIn</span>
           </a>
