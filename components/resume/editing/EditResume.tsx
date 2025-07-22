@@ -4,10 +4,10 @@ import { Input } from "@/components/ui/input";
 import { EducationField } from "./EducationField";
 import AddButton from "./AddButton";
 import SkillField from "./SkillField";
-import { on } from "process";
 import { useState } from "react";
 import AddSkillDialog from "./AddSkillDialog";
 import { toast } from "sonner";
+import WorkExperienceField from "./WorkExperienceField";
 
 export const EditResume = ({
   resume,
@@ -203,7 +203,7 @@ export const EditResume = ({
                         id={id}
                         value={
                           resume?.header.contacts?.[
-                          key as keyof typeof resume.header.contacts
+                            key as keyof typeof resume.header.contacts
                           ] || ""
                         }
                         onChange={(e) => {
@@ -229,7 +229,7 @@ export const EditResume = ({
         </div>
       </div>
 
-      {/* Education Section */}
+      {/* About Section */}
       <div className="space-y-2">
         <h2 className="text-xl font-bold">About</h2>
         <textarea
@@ -245,6 +245,40 @@ export const EditResume = ({
           placeholder="Enter you professional summary..."
         />
       </div>
+
+      {/* Work Experience */}
+      <div className="space-y-4">
+        <h2 className="text-xl font-bold">Work Experience</h2>
+        <div className="space-y-4">
+          {resume?.workExperience?.map((work, index) => (
+            <WorkExperienceField
+              key={index}
+              work={work}
+              index={index}
+              onUpdate={(index, updatedWork) => {
+                const newWorkExperience = [...resume.workExperience];
+                newWorkExperience[index] = {
+                  ...resume.workExperience[index],
+                  ...updatedWork
+                };
+                onChangeResume({
+                  ...resume,
+                  workExperience: newWorkExperience,
+                });
+              }}
+              onDelete={() => {
+                const newWorkExperience = [...resume.workExperience];
+                newWorkExperience.splice(index, 1);
+                onChangeResume({
+                  ...resume,
+                  workExperience: newWorkExperience,
+                });
+              }}
+            />
+          ))}
+        </div>
+      </div>
+
       <div className="space-y-4">
         <h2 className="text-xl font-bold">Education</h2>
         {resume?.education?.map((edu, index) => (

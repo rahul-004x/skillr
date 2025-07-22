@@ -57,7 +57,7 @@ export const WorkExperience = (props: {
                     </p>
                   </div>
                 </div>
-                <p className="text-sm text-right text-[#54575e]">
+                <p className="text-sm text-right text-[#54575e] whitespace-nowrap flex-shrink-0">
                   {item.formattedDate}
                 </p>
               </div>

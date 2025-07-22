@@ -51,7 +51,7 @@ export default function Home() {
 
                 <div className="relative flex w-full flex-col items-center font-mono md:w-fit">
                   <Link href="/upload">
-                    <Button className="group relative flex h-auto cursor-pointer items-center overflow-hidden bg-black/95 px-6 py-3 text-base text-white hover:bg-black/85">
+                    <Button className="group relative flex h-auto items-center overflow-hidden bg-black/95 px-6 py-3 text-base text-white hover:bg-black/85">
                       <div className="absolute -left-16 h-[120px] w-10 -rotate-45 bg-gradient-to-r from-white/10 via-white/50 to-white/10 blur-sm delay-200 duration-500 group-hover:left-[150%]" />
                       <Image
                         src="/sparkle.png"
