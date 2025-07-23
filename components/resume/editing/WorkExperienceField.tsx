@@ -61,11 +61,20 @@ const WorkExperienceField: React.FC<WorkExperienceFieldProps> = ({
         </div>
         <div>
           <Label className="text-sm font-medium">company</Label>
-          <Input placeholder="company" required value={work.company} />
+          <Input
+            placeholder="company"
+            required
+            value={work.company}
+            onChange={(e) => {
+              onUpdate(index, { ...work, company: e.target.value });
+            }}
+          />
         </div>
         <div>
           <Label className="text-sm font-medium">location</Label>
-          <Input placeholder="company" required value={work.location} />
+          <Input placeholder="company" required value={work.location} onChange={(e) => {
+            onUpdate(index, {...work, location: e.target.value})
+          }} />
         </div>
         <div className="md:col-span-2">
           <Label>Date Range</Label>

@@ -1,4 +1,4 @@
-import { ResumeData } from "@/lib/server/redisActions";
+import { ResumeData, updateUsername } from "@/lib/server/redisActions";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { EducationField } from "./EducationField";
@@ -8,6 +8,7 @@ import { useState } from "react";
 import AddSkillDialog from "./AddSkillDialog";
 import { toast } from "sonner";
 import WorkExperienceField from "./WorkExperienceField";
+import { title } from "node:process";
 
 export const EditResume = ({
   resume,
@@ -259,7 +260,7 @@ export const EditResume = ({
                 const newWorkExperience = [...resume.workExperience];
                 newWorkExperience[index] = {
                   ...resume.workExperience[index],
-                  ...updatedWork
+                  ...updatedWork,
                 };
                 onChangeResume({
                   ...resume,
@@ -276,6 +277,27 @@ export const EditResume = ({
               }}
             />
           ))}
+          <AddButton
+            label="Work Experience"
+            onClick={() => {
+              onChangeResume({
+                ...resume,
+                workExperience: [
+                  ...resume.workExperience,
+                  {
+                    company: "",
+                    link: "",
+                    location: "",
+                    title: "",
+                    start: "",
+                    end: null,
+                    description: "",
+                    contract: "", 
+                  },
+                ],
+              });
+            }}
+          />
         </div>
       </div>
 
