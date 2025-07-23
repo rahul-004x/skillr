@@ -7,6 +7,7 @@ interface WorkExperience {
   company: string;
   location: string;
   contract: string;
+  description: string;
   start: string;
   end?: string | null;
 }
@@ -72,12 +73,17 @@ const WorkExperienceField: React.FC<WorkExperienceFieldProps> = ({
         </div>
         <div>
           <Label className="text-sm font-medium">location</Label>
-          <Input placeholder="company" required value={work.location} onChange={(e) => {
-            onUpdate(index, {...work, location: e.target.value})
-          }} />
+          <Input
+            placeholder="company"
+            required
+            value={work.location}
+            onChange={(e) => {
+              onUpdate(index, { ...work, location: e.target.value });
+            }}
+          />
         </div>
         <div className="md:col-span-2">
-          <Label>Date Range</Label>
+          <Label className="text-sm font-medium">Date Range</Label>
           <DateRangePicker
             startDate={work.start}
             endDate={work.end}
@@ -89,6 +95,21 @@ const WorkExperienceField: React.FC<WorkExperienceFieldProps> = ({
             }}
             onEndDateChange={(date) => {
               onUpdate(index, { ...work, end: date });
+            }}
+          />
+        </div>
+        <div className="col-span-2 flex flex-col">
+          <Label className="text-sm font-medium">description</Label>
+          <textarea
+            rows={4}
+            value={work.description || ""}
+            className="w-full rounded-md border border-gray-300 p-2 font-mono text-sm"
+            placeholder="Brief description of you work..."
+            onChange={(e) => {
+              onUpdate(index, {
+                ...work,
+                description: e.target.value
+              })
             }}
           />
         </div>

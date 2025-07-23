@@ -8,7 +8,6 @@ import { useState } from "react";
 import AddSkillDialog from "./AddSkillDialog";
 import { toast } from "sonner";
 import WorkExperienceField from "./WorkExperienceField";
-import { title } from "node:process";
 
 export const EditResume = ({
   resume,
