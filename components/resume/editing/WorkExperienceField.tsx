@@ -46,9 +46,10 @@ const WorkExperienceField: React.FC<WorkExperienceFieldProps> = ({
         </svg>
       </button>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-        <div className="md:col-span-2">
-          <Label className="text-sm font-medium">Job Title</Label>
+        <div className="space-y-1 md:col-span-2">
+          <Label className="text-sm font-medium" htmlFor={`work-title-${index}`}>Job Title</Label>
           <Input
+            id={`work-title-${index}`}
             placeholder="Job Title"
             required
             value={work.title}
@@ -60,9 +61,10 @@ const WorkExperienceField: React.FC<WorkExperienceFieldProps> = ({
             }}
           />
         </div>
-        <div>
-          <Label className="text-sm font-medium">company</Label>
+        <div className="space-y-1">
+          <Label className="text-sm font-medium" htmlFor={`work-company-${index}`}>company</Label>
           <Input
+            id={`work-company-${index}`}
             placeholder="company"
             required
             value={work.company}
@@ -71,10 +73,11 @@ const WorkExperienceField: React.FC<WorkExperienceFieldProps> = ({
             }}
           />
         </div>
-        <div>
-          <Label className="text-sm font-medium">location</Label>
+        <div className="space-y-1">
+          <Label className="text-sm font-medium" htmlFor={`work-location-${index}`}>location</Label>
           <Input
-            placeholder="company"
+            id={`work-location-${location}`}
+            placeholder="location"
             required
             value={work.location}
             onChange={(e) => {
@@ -98,7 +101,7 @@ const WorkExperienceField: React.FC<WorkExperienceFieldProps> = ({
             }}
           />
         </div>
-        <div className="col-span-2 flex flex-col">
+        <div className="col-span-2 flex flex-col gap-1">
           <Label className="text-sm font-medium">description</Label>
           <textarea
             rows={4}
@@ -108,8 +111,8 @@ const WorkExperienceField: React.FC<WorkExperienceFieldProps> = ({
             onChange={(e) => {
               onUpdate(index, {
                 ...work,
-                description: e.target.value
-              })
+                description: e.target.value,
+              });
             }}
           />
         </div>
