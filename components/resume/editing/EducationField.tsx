@@ -44,7 +44,7 @@ export const EducationField: React.FC<EducationFieldProps> = ({
         </svg>
       </button>
       <div className="grid grid-cols-1 gap-4">
-        <div className="md:col-span-2 flex flex-col gap-2">
+        <div className="md:col-span-2 flex flex-col gap-1">
           <Label
             htmlFor={`edu-degree-${index}`}
             className="text-sm font-normal "
@@ -64,7 +64,7 @@ export const EducationField: React.FC<EducationFieldProps> = ({
             }}
           />
         </div>
-        <div className="md:col-span-2 flex flex-col gap-2">
+        <div className="md:col-span-2 flex flex-col gap-1">
           <Label
             htmlFor={`edu-school-${index}`}
             className="text-sm font-medium"

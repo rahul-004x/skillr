@@ -38,10 +38,10 @@ export const EditResume = ({
       className="mx-auto my-8 w-full max-w-2xl space-y-8 bg-white"
       aria-label="resume content editing"
     >
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-1">
         <h2 className="text-xl font-bold">Header</h2>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <div className="col-span-2 flex flex-col gap-2 md:col-span-1">
+          <div className="col-span-2 flex flex-col gap-1 md:col-span-1">
             <Label htmlFor="name" className="text-sm font-medium text-gray-700">
               Name
             </Label>
@@ -61,7 +61,7 @@ export const EditResume = ({
               placeholder="your full name"
             />
           </div>
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-1">
             <Label
               htmlFor="location"
               className="text-sm font-medium text-gray-700"
@@ -84,7 +84,7 @@ export const EditResume = ({
               placeholder="your location"
             />
           </div>
-          <div className="col-span-2 flex flex-col gap-2">
+          <div className="col-span-2 flex flex-col gap-1">
             <Label
               htmlFor="shortAbout"
               className="text-sm font-medium text-gray-700"
@@ -109,7 +109,7 @@ export const EditResume = ({
             />
           </div>
           <div className="col-span-2 grid grid-cols-1 gap-4 md:grid-cols-2">
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-1">
               <Label id="email" className="text-sm font-medium text-gray-700">
                 Email
               </Label>
@@ -131,7 +131,7 @@ export const EditResume = ({
                 }}
               />
             </div>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-1">
               <Label id="phone" className="text-sm font-medium text-gray-700">
                 Phone Number
               </Label>
@@ -153,7 +153,7 @@ export const EditResume = ({
                 }}
               />
             </div>
-            <div className="col-span-2 flex flex-col gap-2">
+            <div className="col-span-2 flex flex-col gap-1">
               <Label className="text-sm font-medium text-gray-700">
                 Social Links
               </Label>
@@ -188,7 +188,7 @@ export const EditResume = ({
                     key: "twitter",
                   },
                 ].map(({ id, label, prefix, placeholder, key }) => (
-                  <div key={id} className="flex flex-col gap-2">
+                  <div key={id} className="flex flex-col gap-1">
                     <Label className="text-sm font-medium text-gray-600">
                       {label}
                     </Label>
@@ -344,7 +344,7 @@ export const EditResume = ({
       {/* Skill section */}
       <div className="space-y-4">
         <h2 className="text-xl font-bold">Skills</h2>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-1">
           {resume?.header?.skills?.map((skills, index) => (
             <SkillField
               key={index}
