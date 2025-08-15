@@ -149,7 +149,7 @@ export default function UploadPageClient() {
         <div className="mt-4 font-mono">
           <div className="relative">
             <Button
-              className="h-auto bg-black/95 px-4 py-3 hover:bg-black/85"
+              className="h-auto bg-black/95 px-4 py-3 hover:bg-black/85 cursor-pointer"
               disabled={fileState.status === "empty"}
               onClick={() => router.push("/pdf")}
             >
