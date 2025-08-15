@@ -62,7 +62,7 @@ const WorkExperienceField: React.FC<WorkExperienceFieldProps> = ({
           />
         </div>
         <div className="space-y-1">
-          <Label className="text-sm font-medium" htmlFor={`work-company-${index}`}>company</Label>
+          <Label className="text-sm font-medium" htmlFor={`work-company-${index}`}>Company</Label>
           <Input
             id={`work-company-${index}`}
             placeholder="company"
@@ -74,7 +74,7 @@ const WorkExperienceField: React.FC<WorkExperienceFieldProps> = ({
           />
         </div>
         <div className="space-y-1">
-          <Label className="text-sm font-medium" htmlFor={`work-location-${index}`}>location</Label>
+          <Label className="text-sm font-medium" htmlFor={`work-location-${index}`}>Location</Label>
           <Input
             id={`work-location-${location}`}
             placeholder="location"
@@ -102,7 +102,7 @@ const WorkExperienceField: React.FC<WorkExperienceFieldProps> = ({
           />
         </div>
         <div className="col-span-2 flex flex-col gap-1">
-          <Label className="text-sm font-medium">description</Label>
+          <Label className="text-sm font-medium">Description</Label>
           <textarea
             rows={4}
             value={work.description || ""}

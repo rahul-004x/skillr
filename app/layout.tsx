@@ -12,6 +12,9 @@ const mono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "Skillr – Turn a LinkedIn/Resume into a personal site in 1 click",
   description: "Generate a live portfolio from your LinkedIn/Resume profile in under a minute. One click, no code, instant link to share.",
+  icons: {
+    icon: "/icon.png"
+  }
 };
 
 export default function RootLayout({
@@ -29,6 +32,6 @@ export default function RootLayout({
           </ReactQueryClientProvider>
         </body>
       </html>
-    </ClerkProvider>
+   </ClerkProvider>
   );
 }
