@@ -5,7 +5,6 @@ import { PublishStatuses } from "@/components/PreviewActionBar"
 import { ResumeDataSchema } from "@/lib/resume";
 import { ResumeData } from "@/lib/server/redisActions";
 import { useDebouncedCallback } from "use-debounce";
-import { addSeconds } from "date-fns";
 
 const fetchResume = async (): Promise<{ resume: Resume | undefined }> => {
   const response = await fetch("/api/resume");
@@ -15,7 +14,6 @@ const fetchResume = async (): Promise<{ resume: Resume | undefined }> => {
   }
   return await response.json();
 };
-addSeconds()
 
 const fetchUsername = async (): Promise<{
   username: string;
