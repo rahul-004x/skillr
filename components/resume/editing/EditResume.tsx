@@ -1,4 +1,4 @@
-import { ResumeData, updateUsername } from "@/lib/server/redisActions";
+import { ResumeData } from "@/lib/server/redisActions";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { EducationField } from "./EducationField";
@@ -8,6 +8,7 @@ import { useState } from "react";
 import AddSkillDialog from "./AddSkillDialog";
 import { toast } from "sonner";
 import WorkExperienceField from "./WorkExperienceField";
+import ProjectField from "./ProjectField";
 
 export const EditResume = ({
   resume,
@@ -203,7 +204,7 @@ export const EditResume = ({
                         id={id}
                         value={
                           resume?.header.contacts?.[
-                            key as keyof typeof resume.header.contacts
+                          key as keyof typeof resume.header.contacts
                           ] || ""
                         }
                         onChange={(e) => {
@@ -291,7 +292,51 @@ export const EditResume = ({
                     start: "",
                     end: null,
                     description: "",
-                    contract: "", 
+                    contract: "",
+                  },
+                ],
+              });
+            }}
+          />
+        </div>
+      </div>
+
+      {/* Project */}
+      <div className="space-y-4">
+        <h2 className="text-xl font-bold">Project</h2>
+        <div className="space-y-4">
+          {resume?.projects?.map((project, index) => (
+            <ProjectField key={index} index={index} projects={project} onUpdate={(index, updatedProject) => {
+              const newProjects = [...(resume.projects || [])];
+              newProjects[index] = {
+                ...resume.projects?.[index],
+                ...updatedProject
+              };
+              onChangeResume({
+                ...resume,
+                projects: newProjects
+              })
+            }} onDelete={(index) => {
+              const newProjects = [...(resume.projects || [])];
+              newProjects.splice(index, 1);
+              onChangeResume({
+                ...resume,
+                projects: newProjects
+              });
+            }} />
+          ))}
+          <AddButton
+            label="Add Project"
+            onClick={() => {
+              onChangeResume({
+                ...resume,
+                projects: [
+                  ...(resume.projects || []),
+                  {
+                    name: "",
+                    tools: [],
+                    functionality: "",
+                    achievement: ""
                   },
                 ],
               });
