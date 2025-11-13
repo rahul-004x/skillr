@@ -71,20 +71,6 @@ export default function Home() {
                 </div>
               </div>
             </div>
-
-            {/* Right side - Preview */}
-            {/* <div className="relative flex max-h-[700px] w-full min-w-[50%] flex-1 items-center justify-center md:w-1/2 lg:min-w-[500px]"> */}
-            {/*   <div className="absolute inset-0 -bottom-4 h-full rounded-3xl bg-black/5 blur-xl"></div> */}
-            {/*   <BlurFade delay={0.25} inView> */}
-            {/*     <Image */}
-            {/*       src="/cv-home.png" */}
-            {/*       className="relative h-full w-full max-w-[500px] overflow-hidden object-cover" */}
-            {/*       alt="CV Website Preview" */}
-            {/*       width={1000} */}
-            {/*       height={1000} */}
-            {/*     /> */}
-            {/*   </BlurFade> */}
-            {/* </div> */}
           </div>
         </div>
       </section>

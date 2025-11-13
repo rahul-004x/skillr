@@ -1,15 +1,10 @@
 import { generateObject } from "ai";
-import { createTogetherAI } from "@ai-sdk/togetherai";
+import { createOpenRouter } from "@openrouter/ai-sdk-provider";
 import { ResumeDataSchema } from "@/lib/resume";
 import dedent from "dedent";
 
-// Create together ai client with helicon ai {ai observability and monitoring tool}
-const togetherAI = createTogetherAI({
-  apiKey: process.env.TOGETHER_API_KEY ?? "",
-  // baseURL: 'https://together.helicon.ai/v1',
-  // headers: {
-  //     'Helicon-Auth': `Bearer ${process.env.HELICON_API_KEY}`
-  // }
+const openRouter = createOpenRouter({
+  apiKey: process.env.OPENROUTER_API_KEY ?? "",
 });
 
 /**
@@ -21,7 +16,7 @@ export const generateResumeObject = async (resumeText: string) => {
   const startTime = Date.now();
   try {
     const { object } = await generateObject({
-      model: togetherAI("deepseek-ai/DeepSeek-R1-Distill-Llama-70B-free"),
+      model: openRouter("openai/gpt-oss-20b:free"),
       maxRetries: 1,
       schema: ResumeDataSchema,
       mode: "json",
@@ -39,6 +34,7 @@ export const generateResumeObject = async (resumeText: string) => {
                     - For other missing or unclear information, use empty strings or default values instead of null
                     - Ensure all extracted data matches the provided schema structure
                     - Preserve the original content meaning and context
+                    - double check the generated parser json is of correct format
                     
                     Resume Text:
                     ${resumeText}
@@ -55,6 +51,14 @@ export const generateResumeObject = async (resumeText: string) => {
     return object;
   } catch (error) {
     console.error("Error generating resume object", error);
+
+    // Log more details for debugging
+    if (error instanceof Error) {
+      console.error("Error name:", error.name);
+      console.error("Error message:", error.message);
+      console.error("Error stack:", error.stack);
+    }
+
     return undefined;
   }
 };
