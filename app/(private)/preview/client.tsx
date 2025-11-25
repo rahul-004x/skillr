@@ -174,9 +174,9 @@ export default function PreviewClient({ messageTip }: { messageTip?: string }) {
           status={resumeQuery.data?.resume?.status}
           onStatusChange={async (newStatus) => {
             await toggleStatusMutation.mutateAsync(newStatus);
-            // const isFirstTime = !localStorage.getItem("publishedSite");
+            const isFirstTime = !localStorage.getItem("publishedSite");
 
-            if (newStatus === "live") {
+            if (isFirstTime && newStatus === "live") {
               setShowModalSiteLive(true);
               localStorage.setItem("publishedSite", new Date().toDateString());
             } else {

@@ -7,6 +7,10 @@ import "./globals.css";
 
 const mono = JetBrains_Mono({
   subsets: ["latin"],
+  display: "swap",
+  fallback: ["monospace"],
+  adjustFontFallback: true,
+  preload: true,
 });
 
 export const metadata: Metadata = {
