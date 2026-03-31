@@ -7,8 +7,8 @@ export type PostResponse = { available: boolean } | { error: string }
 // Post endpoint for check-username availability
 export async function POST(request: Request): Promise<NextResponse<PostResponse>> {
     try {
-        const { searchParams } = new URL(request.url)
-        const username = searchParams.get('username') // Fixed: removed extra space
+        const { searchParams }  = new URL(request.url)
+        const username = searchParams.get('username') 
 
         if (!username || typeof username !== 'string') {
             return NextResponse.json(

@@ -2,7 +2,7 @@ interface SkillFieldProps {
   skills: string;
   index: number;
   onUpdate: (index: number, updateSkill: string) => void;
-  onDelete: (indes: string) => void;
+  onDelete: (index: number) => void;
 }
 const SkillField: React.FC<SkillFieldProps> = ({
   skills,

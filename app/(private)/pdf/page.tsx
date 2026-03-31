@@ -16,7 +16,7 @@ async function PdfProcessing({ userId }: { userId: string }) {
     console.log(fileContent)
 
     // check if the fileContent was good or bad, if bad we redirect to the upload page and delete the object from S3 and redis
-    const isContentBad = false; // await isFileContentBad(fileContent);
+    const isContentBad = false  //await isFileContentBad(fileContent);
 
     if (isContentBad) {
       await deleteS3File({
